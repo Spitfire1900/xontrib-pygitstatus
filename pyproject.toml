@@ -1,0 +1,89 @@
+
+[project]
+name = "xontrib-pygitstatus"
+version = "0.0.1"
+license = {file = "LICENSE"}
+description = "PyGit implementation of gitstatus PROMPT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Shells",
+    "Topic :: System :: System Shells",
+    "Topic :: Terminals",
+]
+requires-python = ">=3.8"
+dependencies = ["xonsh>=0.12.5"]
+authors = [
+    { name = "Kyle Gottfried", email = "Kyle.Gottfried@outlook.com" },
+]
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+
+
+[project.entry-points."xonsh.xontribs"]
+"pygitstatus" = "xontrib_pygitstatus.main"
+
+
+
+[project.urls]
+
+Homepage = "https://github.com//xontrib-pygitstatus"
+Documentation = "https://github.com//xontrib-pygitstatus/blob/master/README.md"
+Code = "https://github.com//xontrib-pygitstatus"
+"Issue tracker" = "https://github.com//xontrib-pygitstatus/issues"
+
+
+
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+
+
+[build-system]
+requires = [
+    "setuptools>=62",
+    "wheel",               # for bdist package distribution
+]
+build-backend = "setuptools.build_meta"
+[tool.setuptools]
+    
+platforms = ["any"]
+include-package-data = false
+[tool.setuptools.package-data]
+    
+
+
+[tool.black]
+include = '\.pyi?$'
+force-exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.tox
+  | \.vscode
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | disk-cache.sqlite3
+)/
+'''
+
+[tool.ruff]
+select = [
+    "E",
+    "F",
+    "B", # flake8-bugbear
+    "I", # isort
+    "UP", # pyupgrade
+    "SIM", # simplify
+    "TCH", # flake8-type-checking
+    "RUF", # ruff specific rules
+]
