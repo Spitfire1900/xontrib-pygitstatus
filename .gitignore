@@ -134,6 +134,8 @@ xontrib/__init__.py
 # Copier
 .copier-answers.yml
 
+### VSCODE
+
 .vscode/*
 !.vscode/settings.default.json
 !.vscode/tasks.json
@@ -146,3 +148,7 @@ xontrib/__init__.py
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+### Local testiong
+
+.xdg/
