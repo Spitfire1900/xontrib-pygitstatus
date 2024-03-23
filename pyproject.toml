@@ -1,7 +1,7 @@
 
 [project]
 name = "xontrib-pygitstatus"
-version = "0.0.1"
+version = "0.0.1a0"
 license = { file = "LICENSE" }
 description = "PyGit implementation of gitstatus PROMPT"
 classifiers = [
