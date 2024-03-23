@@ -13,4 +13,4 @@ def _load_xontrib_(xsh: XonshSession, **_):
 
 def _unload_xontrib_(xsh: XonshSession, **kwargs) -> dict:
     """If you want your extension to be unloadable, put that logic here"""
-    raise NotImplementedError('unload of pygitstatusnot implemented')
+    raise NotImplementedError('unload of pygitstatus not implemented')

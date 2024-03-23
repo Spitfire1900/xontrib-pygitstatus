@@ -19,14 +19,9 @@
             "source.organizeImports": "always"
         }
     },
-    "python.formatting.provider": "yapf",
     "python.languageServer": "Pylance",
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.diagnosticMode": "workspace",
-    "python.linting.enabled": true,
-    "python.linting.pylintEnabled": true,
-    "python.linting.flake8Enabled": false,
-    "python.linting.pydocstyleEnabled": false,
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
     "python.testing.pytestArgs": [
         "src"
