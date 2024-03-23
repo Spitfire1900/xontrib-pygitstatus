@@ -21,7 +21,7 @@ content-type = "text/markdown"
 
 
 [project.entry-points."xonsh.xontribs"]
-"pygitstatus" = "xontrib_pygitstatus.main"
+"pygitstatus" = "xontrib.pygitstatus.entrypoint"
 
 
 [project.urls]
