@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "charliermarsh.ruff",
+        "dangmai.workspace-default-settings",
+        "donjayamanne.python-extension-pack",
+        "esbenp.prettier-vscode",
+        "ms-python.isort",
+        "ms-python.pylint",
+        "tamasfe.even-better-toml",
+        "eeyore.yapf",
+    ]
+}
