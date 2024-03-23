@@ -7,8 +7,5 @@ def _load_xontrib_(xsh: XonshSession, **_):
 
     print("Autoloading xontrib: xontrib-pygitstatus")
 
-    
     from .event_hooks import listen_cd
     xsh.builtins.events.on_chdir(listen_cd)
-    
-    

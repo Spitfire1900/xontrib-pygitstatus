@@ -87,3 +87,11 @@ select = [
     "TCH", # flake8-type-checking
     "RUF", # ruff specific rules
 ]
+
+[tool.yapf]
+based_on_style = "pep8"
+column_limit = "120"
+coalesce_brackets = "True"
+each_dict_entry_on_separate_line = "False"
+dedent_closing_brackets = "False"
+split_before_named_assigns = "False"
