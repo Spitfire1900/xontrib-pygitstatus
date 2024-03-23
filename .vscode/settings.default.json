@@ -13,7 +13,7 @@
         }
     ],
     "[python]": {
-        "editor.defaultFormatter": "ms-python.python",
+        "editor.defaultFormatter": "eeyore.yapf",
         "editor.formatOnSaveMode": "modifications",
         "editor.codeActionsOnSave": {
             "source.organizeImports": "always"
