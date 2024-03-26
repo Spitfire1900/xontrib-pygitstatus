@@ -1,6 +1,8 @@
+from collections.abc import MutableMapping
+
 from xonsh.built_ins import XonshSession
 
-from .prompt import status
+from .prompt import clean
 
 
 def _load_xontrib_(xsh: XonshSession, **_):
@@ -13,8 +15,9 @@ def _load_xontrib_(xsh: XonshSession, **_):
     # from .event_hooks import listen_cd
     # xsh.builtins.events.on_chdir(listen_cd)
 
-    prompt_fields = xsh.env.get('PROMPT_FIELDS')
-    prompt_fields['pygitstatus'] = status
+    prompt_fields: MutableMapping
+    prompt_fields = xsh.env.get('PROMPT_FIELDS')  # type: ignore
+    prompt_fields['pygitstatus'] = clean
 
 
 def _unload_xontrib_(xsh: XonshSession, **kwargs) -> dict:
