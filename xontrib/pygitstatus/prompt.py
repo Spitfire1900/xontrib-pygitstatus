@@ -1,3 +1,4 @@
+import contextlib
 import os
 
 from pygit2 import GitError  # pylint: disable=no-name-in-module
@@ -16,11 +17,9 @@ def clean(fld: PromptField, ctx: PromptFields):
 
     value = ''
 
-    try:
+    with contextlib.suppress(GitError):
         repo = Repo(os.getcwd())
         if len(repo.status()) == 0:
             value = symbol
-    except GitError:
-        pass
 
     fld.value = value
