@@ -1,6 +1,7 @@
 import contextlib
 import os
 
+from pygit2 import Commit  # pylint: disable=no-name-in-module
 from pygit2 import GitError  # pylint: disable=no-name-in-module
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
@@ -12,7 +13,7 @@ from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 def ahead(fld: PromptField, ctx: PromptFields):
     ahead, behind = (0, 0)
     with contextlib.suppress(GitError):
-        repo = Repo(os.getcwd())
+        repo = Repo('.')
 
         local_commit = repo.head.target
         if local_branch := repo.branches.get(repo.head.shorthand):
@@ -27,7 +28,7 @@ def ahead(fld: PromptField, ctx: PromptFields):
 def behind(fld: PromptField, ctx: PromptFields):
     ahead, behind = (0, 0)
     with contextlib.suppress(GitError):
-        repo = Repo(os.getcwd())
+        repo = Repo('.')
 
         local_commit = repo.head.target
         if local_branch := repo.branches.get(repo.head.shorthand):
@@ -36,6 +37,13 @@ def behind(fld: PromptField, ctx: PromptFields):
                 ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
 
     fld.value = str(behind) if behind else ''
+
+
+@PromptField.wrap(prefix="{CYAN}", info="branch")
+def branch(fld: PromptField, ctx: PromptFields):
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        fld.value = repo.head.shorthand
 
 
 @PromptField.wrap(prefix="{BOLD_GREEN}", suffix="{RESET}", symbol="✓")
@@ -48,7 +56,7 @@ def clean(fld: PromptField, ctx: PromptFields):
     value = ''
 
     with contextlib.suppress(GitError):
-        repo = Repo(os.getcwd())
+        repo = Repo('.')
         if len(repo.status()) == 0:
             value = symbol
 
@@ -76,7 +84,6 @@ def short_head(fld: PromptField, ctx: PromptFields):
 
 @PromptField.wrap()
 def tag(fld: PromptField, ctx: PromptFields):
-    from pygit2 import Commit  # pylint: disable=no-name-in-module
     with contextlib.suppress(GitError):
         repo = Repo('.')
         head_commit = repo.get(repo.head.target)

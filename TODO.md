@@ -1,12 +1,12 @@
 ```python
 'gitstatus.repo_path': <Prompt: gitstatus.repo_path>, # DONE
 'gitstatus.short_head': <Prompt: gitstatus.short_head>, # DONE
-'gitstatus.tag': <Prompt: gitstatus.tag>, # DONE
+'gitstatus.tag': <Prompt: gitstatus.tag>, # PARTIAL
 'gitstatus.tag_or_hash': <Prompt: gitstatus.tag_or_hash>, # TODO
 'gitstatus.stash_count': <Prompt: gitstatus.stash_count>, # TODO
 'gitstatus.operations': <Prompt: gitstatus.operations>, # TODO
 'gitstatus.porcelain': <Prompt: gitstatus.porcelain>, # TODO
-'gitstatus.branch': <Prompt: gitstatus.branch>, # TODO
+'gitstatus.branch': <Prompt: gitstatus.branch>, # DONE
 'gitstatus.ahead': <Prompt: gitstatus.ahead>, # DONE
 'gitstatus.behind': <Prompt: gitstatus.behind>, # DONE
 'gitstatus.untracked': <Prompt: gitstatus.untracked>, # TODO
