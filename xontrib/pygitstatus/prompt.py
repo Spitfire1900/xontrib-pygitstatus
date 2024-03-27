@@ -87,3 +87,4 @@ def tag(fld: PromptField, ctx: PromptFields):
             tag_commit = reference.peel(Commit)
             if head_commit == tag_commit:
                 fld.value = _tag.partition('refs/tags/')[-1]
+                break
