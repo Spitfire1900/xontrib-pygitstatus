@@ -52,3 +52,12 @@ def clean(fld: PromptField, ctx: PromptFields):
             value = symbol
 
     fld.value = value
+
+
+@PromptField.wrap(prefix=':')
+def short_head(fld: PromptField, ctx: PromptFields):
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        local_commit_hash = repo.head.target
+        if (local_commit := repo.get(local_commit_hash)) is not None:
+            fld.value = local_commit.short_id

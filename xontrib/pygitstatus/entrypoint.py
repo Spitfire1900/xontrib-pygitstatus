@@ -2,7 +2,7 @@ from collections.abc import MutableMapping
 
 from xonsh.built_ins import XonshSession
 
-from .prompt import ahead, behind, clean
+from .prompt import ahead, behind, clean, short_head
 
 
 def _load_xontrib_(xsh: XonshSession, **_):
@@ -20,6 +20,7 @@ def _load_xontrib_(xsh: XonshSession, **_):
     prompt_fields['pygitstatus.ahead'] = ahead
     prompt_fields['pygitstatus.behind'] = behind
     prompt_fields['pygitstatus.clean'] = clean
+    prompt_fields['pygitstatus.short_head'] = short_head
 
 
 def _unload_xontrib_(xsh: XonshSession, **kwargs) -> dict:
