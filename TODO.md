@@ -7,8 +7,8 @@
 'gitstatus.operations': <Prompt: gitstatus.operations>, # TODO
 'gitstatus.porcelain': <Prompt: gitstatus.porcelain>, # TODO
 'gitstatus.branch': <Prompt: gitstatus.branch>, # TODO
-'gitstatus.ahead': <Prompt: gitstatus.ahead>, # TODO
-'gitstatus.behind': <Prompt: gitstatus.behind>, # TODO
+'gitstatus.ahead': <Prompt: gitstatus.ahead>, # DONE
+'gitstatus.behind': <Prompt: gitstatus.behind>, # DONE
 'gitstatus.untracked': <Prompt: gitstatus.untracked>, # TODO
 'gitstatus.changed': <Prompt: gitstatus.changed>, # TODO
 'gitstatus.deleted': <Prompt: gitstatus.deleted>, # TODO

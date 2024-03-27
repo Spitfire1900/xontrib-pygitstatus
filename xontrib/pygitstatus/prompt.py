@@ -8,6 +8,35 @@ from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 ### .venv/Lib/site-packages/xonsh/prompt/gitstatus.py
 
 
+@PromptField.wrap(prefix="↑·", info="ahead")
+def ahead(fld: PromptField, ctx: PromptFields):
+    ahead, behind = (0, 0)
+    with contextlib.suppress(GitError):
+        repo = Repo(os.getcwd())
+
+        local_commit = repo.head.target
+        if local_branch := repo.branches.get(repo.head.shorthand):
+            if (upstream := local_branch.upstream) is not None:
+                upstream_commit = upstream.target
+                ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
+
+    fld.value = str(ahead) if ahead else ''
+
+
+@PromptField.wrap(prefix="↓·", info="behind")
+def behind(fld: PromptField, ctx: PromptFields):
+    ahead, behind = (0, 0)
+    with contextlib.suppress(GitError):
+        repo = Repo(os.getcwd())
+
+        local_commit = repo.head.target
+        if local_branch := repo.branches.get(repo.head.shorthand):
+            if (upstream := local_branch.upstream) is not None:
+                upstream_commit = upstream.target
+                ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
+
+    fld.value = str(behind) if behind else ''
+
 @PromptField.wrap(prefix="{BOLD_GREEN}", suffix="{RESET}", symbol="✓")
 def clean(fld: PromptField, ctx: PromptFields):
 
