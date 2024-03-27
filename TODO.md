@@ -1,5 +1,5 @@
 ```python
-'gitstatus.repo_path': <Prompt: gitstatus.repo_path>, # TODO
+'gitstatus.repo_path': <Prompt: gitstatus.repo_path>, # DONE
 'gitstatus.short_head': <Prompt: gitstatus.short_head>, # DONE
 'gitstatus.tag': <Prompt: gitstatus.tag>, # TODO
 'gitstatus.tag_or_hash': <Prompt: gitstatus.tag_or_hash>, # TODO

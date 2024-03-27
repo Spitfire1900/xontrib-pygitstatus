@@ -54,6 +54,15 @@ def clean(fld: PromptField, ctx: PromptFields):
     fld.value = value
 
 
+@PromptField.wrap()
+def repo_path(fld: PromptField, ctx: PromptFields):
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+
+        # this returns `.git` in most cases, should it
+        # just return the relative basedir?
+        fld.value = os.path.relpath(repo.path)
+
 @PromptField.wrap(prefix=':')
 def short_head(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
