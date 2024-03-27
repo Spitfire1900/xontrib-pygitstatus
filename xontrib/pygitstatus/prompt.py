@@ -37,6 +37,7 @@ def behind(fld: PromptField, ctx: PromptFields):
 
     fld.value = str(behind) if behind else ''
 
+
 @PromptField.wrap(prefix="{BOLD_GREEN}", suffix="{RESET}", symbol="✓")
 def clean(fld: PromptField, ctx: PromptFields):
 
@@ -62,6 +63,7 @@ def repo_path(fld: PromptField, ctx: PromptFields):
         # this returns `.git` in most cases, should it
         # just return the relative basedir?
         fld.value = os.path.relpath(repo.path)
+
 
 @PromptField.wrap(prefix=':')
 def short_head(fld: PromptField, ctx: PromptFields):

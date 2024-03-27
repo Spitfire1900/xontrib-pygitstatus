@@ -14,7 +14,7 @@
     ],
     "[python]": {
         "editor.defaultFormatter": "eeyore.yapf",
-        "editor.formatOnSaveMode": "modifications",
+        "editor.formatOnSaveMode": "file",
         "editor.codeActionsOnSave": {
             "source.organizeImports": "always"
         }
