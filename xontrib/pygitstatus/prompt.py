@@ -70,3 +70,20 @@ def short_head(fld: PromptField, ctx: PromptFields):
         local_commit_hash = repo.head.target
         if (local_commit := repo.get(local_commit_hash)) is not None:
             fld.value = local_commit.short_id
+
+
+@PromptField.wrap()
+def tag(fld: PromptField, ctx: PromptFields):
+    from pygit2 import Commit  # pylint: disable=no-name-in-module
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        head_commit = repo.get(repo.head.target)
+
+        tags = [_ for _ in repo.references if _.startswith('refs/tags')]
+        # git describe show the latest tag,
+        # repo.references is alphabetical
+        for _tag in tags:
+            reference = repo.lookup_reference(_tag)
+            tag_commit = reference.peel(Commit)
+            if head_commit == tag_commit:
+                fld.value = _tag.partition('refs/tags/')[-1]
