@@ -79,7 +79,7 @@ def tag(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
         head_commit = repo.get(repo.head.target)
 
-        tags = [_ for _ in repo.references if _.startswith('refs/tags')]
+        tags = (_ for _ in repo.references if _.startswith('refs/tags'))
         # git describe show the latest tag,
         # repo.references is alphabetical
         for _tag in tags:
