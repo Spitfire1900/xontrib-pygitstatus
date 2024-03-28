@@ -1,8 +1,8 @@
 import contextlib
 import os
 
-from pygit2 import Commit  # pylint: disable=no-name-in-module
-from pygit2 import GitError  # pylint: disable=no-name-in-module
+# pylint: disable=no-name-in-module
+from pygit2 import GIT_STATUS_WT_NEW, Commit, GitError
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 
@@ -11,6 +11,7 @@ from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 
 @PromptField.wrap(prefix='↑·', info='ahead')
 def ahead(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
     ahead, behind = (0, 0)
     with contextlib.suppress(GitError):
         repo = Repo('.')
@@ -26,6 +27,7 @@ def ahead(fld: PromptField, ctx: PromptFields):
 
 @PromptField.wrap(prefix='↓·', info='behind')
 def behind(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
     ahead, behind = (0, 0)
     with contextlib.suppress(GitError):
         repo = Repo('.')
@@ -41,6 +43,7 @@ def behind(fld: PromptField, ctx: PromptFields):
 
 @PromptField.wrap(prefix='{CYAN}', info='branch')
 def branch(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
         fld.value = repo.head.shorthand
@@ -53,18 +56,17 @@ def clean(fld: PromptField, ctx: PromptFields):
     symbol: str
     symbol = fld.symbol  # type: ignore
 
-    value = ''
+    fld.value = ''
 
     with contextlib.suppress(GitError):
         repo = Repo('.')
         if len(repo.status()) == 0:
-            value = symbol
-
-    fld.value = value
+            fld.value = symbol
 
 
 @PromptField.wrap()
 def repo_path(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
 
@@ -75,6 +77,7 @@ def repo_path(fld: PromptField, ctx: PromptFields):
 
 @PromptField.wrap(prefix=':')
 def short_head(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
         local_commit_hash = repo.head.target
@@ -84,6 +87,7 @@ def short_head(fld: PromptField, ctx: PromptFields):
 
 @PromptField.wrap()
 def tag(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
         head_commit = repo.get(repo.head.target)
