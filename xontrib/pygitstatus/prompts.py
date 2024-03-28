@@ -85,6 +85,16 @@ def short_head(fld: PromptField, ctx: PromptFields):
             fld.value = local_commit.short_id
 
 
+@PromptField.wrap(prefix="⚑")
+def stash_count(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        _stash_count = len(repo.listall_stashes())
+        if _stash_count > 0:
+            fld.value = str(_stash_count)
+
+
 @PromptField.wrap()
 def tag(fld: PromptField, ctx: PromptFields):
     fld.value = ''

@@ -3,7 +3,7 @@
 'gitstatus.short_head': <Prompt: gitstatus.short_head>, # DONE
 'gitstatus.tag': <Prompt: gitstatus.tag>, # PARTIAL
 'gitstatus.tag_or_hash': <Prompt: gitstatus.tag_or_hash>, # TODO
-'gitstatus.stash_count': <Prompt: gitstatus.stash_count>, # TODO
+'gitstatus.stash_count': <Prompt: gitstatus.stash_count>, # DONE
 'gitstatus.operations': <Prompt: gitstatus.operations>, # TODO
 'gitstatus.porcelain': <Prompt: gitstatus.porcelain>, # TODO
 'gitstatus.branch': <Prompt: gitstatus.branch>, # DONE
