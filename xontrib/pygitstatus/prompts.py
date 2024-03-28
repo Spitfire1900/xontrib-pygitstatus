@@ -4,11 +4,10 @@ from typing import List, Optional
 
 import pygit2
 # pylint: disable=no-name-in-module
-from pygit2 import (GIT_STATUS_CONFLICTED, GIT_STATUS_INDEX_DELETED,
-                    GIT_STATUS_INDEX_MODIFIED, GIT_STATUS_INDEX_NEW,
-                    GIT_STATUS_INDEX_RENAMED, GIT_STATUS_INDEX_TYPECHANGE,
-                    GIT_STATUS_WT_DELETED, GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW,
-                    Commit, Diff, GitError)
+from pygit2 import (GIT_STATUS_CONFLICTED, GIT_STATUS_INDEX_MODIFIED,
+                    GIT_STATUS_INDEX_NEW, GIT_STATUS_INDEX_RENAMED,
+                    GIT_STATUS_INDEX_TYPECHANGE, GIT_STATUS_WT_DELETED,
+                    GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, Diff, GitError)
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 from xonsh.prompt.gitstatus import operations as gitstatus_operations
