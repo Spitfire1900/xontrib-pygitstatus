@@ -28,7 +28,7 @@
         is only inferred if it is also in the PROMPT.
         In addition it only correctly displays on n+1 prompts, not the next prompt.
         -->
--   branch_color <!-- TODO  -->
+-   branch_color, branch_bg_color <!-- DONE  -->
 -   ALL Prompts need the name field set. <!-- DONE  -->
 -   Prompts like deleted, changed, etc. need to consider that status() combines the INDEX and WT status <!-- DONE  -->
 

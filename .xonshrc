@@ -16,4 +16,5 @@ $XONTRIB_PROMPT_BAR_THEME = {
 xontrib load prompt_bar
 # {branch_color} is specifically removed for performance reasons
 # $PROMPT='{prompt_bar}{RESET}\n{gitstatus.behind}{gitstatus.ahead}{gitstatus.changed}{gitstatus.staged}{gitstatus.untracked}{BOLD_BLUE}{branch_color}{prompt_end}{RESET} '
-$PROMPT='{prompt_bar}{RESET}\n{pygitstatus.behind}{pygitstatus.ahead}{pygitstatus.changed}{pygitstatus.staged}{pygitstatus.untracked}{RESET}{prompt_end}{RESET} '
+# $PROMPT='{prompt_bar}{RESET}\n{pygitstatus.behind}{pygitstatus.ahead}{pygitstatus.changed}{pygitstatus.staged}{pygitstatus.untracked}{RESET}{prompt_end}{RESET} '
+$PROMPT='{prompt_bar}{RESET}\n{pygitstatus.behind}{pygitstatus.ahead}{pygitstatus.changed}{pygitstatus.staged}{pygitstatus.untracked}{pygitstatus.branch_color}{prompt_end}{RESET} '

@@ -98,6 +98,23 @@ def branch(fld: PromptField, ctx: PromptFields):
         fld.value = repo.head.shorthand
 
 
+def branch_bg_color() -> str:
+    color = '{BACKGROUND_YELLOW}'
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        color = '{BACKGROUND_GREEN}' if len(repo.status()) == 0 else '{BACKGROUND_RED}'
+    return color
+
+
+def branch_color() -> str:
+    color = '{BOLD_INTENSE_YELLOW}'
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        color = '{BOLD_INTENSE_GREEN}' if len(
+            repo.status()) == 0 else '{BOLD_INTENSE_RED}'
+    return color
+
+
 @PromptField.wrap(prefix="{BLUE}+", suffix="{RESET}", info="changed",
                   name='pygitstatus.changed')
 def changed(fld: PromptField, ctx: PromptFields):
