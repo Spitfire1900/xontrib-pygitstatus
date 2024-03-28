@@ -18,7 +18,7 @@
 'gitstatus.lines_added': <Prompt: gitstatus.lines_added>, # DONE
 'gitstatus.lines_removed': <Prompt: gitstatus.lines_removed>, # DONE
 'gitstatus.clean': <Prompt: gitstatus.clean>, # DONE
-'gitstatus': <Prompt: gitstatus>, # TODO
+'gitstatus': <Prompt: gitstatus>, # DONE
 ```
 
 -   currbranch <!--
