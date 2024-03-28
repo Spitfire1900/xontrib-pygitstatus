@@ -15,7 +15,7 @@ from xonsh.prompt.gitstatus import operations as gitstatus_operations
 ### .venv/Lib/site-packages/xonsh/prompt/gitstatus.py
 
 
-def __git_status_calulator(file_status: int) -> List[int]:
+def __git_status_list(file_status: int) -> List[int]:
     """
     """
     # pylint: disable=pointless-string-statement
@@ -108,7 +108,7 @@ def changed(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
 
         for k, v in repo.status().items():
-            statuses = __git_status_calulator(v)
+            statuses = __git_status_list(v)
             # We don't care about the index
             is_true = GIT_STATUS_WT_MODIFIED in statuses
             if is_true:
@@ -161,7 +161,7 @@ def deleted(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
 
         for k, v in repo.status().items():
-            statuses = __git_status_calulator(v)
+            statuses = __git_status_list(v)
             # We don't care about the index.
             is_true = GIT_STATUS_WT_DELETED in statuses
             if is_true:
