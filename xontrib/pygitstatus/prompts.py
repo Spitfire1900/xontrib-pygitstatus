@@ -2,7 +2,7 @@ import contextlib
 import os
 
 # pylint: disable=no-name-in-module
-from pygit2 import GIT_STATUS_WT_NEW, Commit, GitError
+from pygit2 import GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, GitError
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 
@@ -47,6 +47,16 @@ def branch(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
         fld.value = repo.head.shorthand
+
+
+@PromptField.wrap(prefix="{BLUE}+", suffix="{RESET}", info="changed")
+def changed(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        untracked_count = len([v for k, v in repo.status().items() if v == GIT_STATUS_WT_MODIFIED])
+        if untracked_count > 0:
+            fld.value = str(untracked_count)
 
 
 @PromptField.wrap(prefix='{BOLD_GREEN}', suffix='{RESET}', symbol='✓')
@@ -115,8 +125,8 @@ def tag(fld: PromptField, ctx: PromptFields):
 
 @PromptField.wrap(prefix="…", info="untracked")
 def untracked(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
     with contextlib.suppress(GitError):
-        fld.value = ''
         repo = Repo('.')
         untracked_count = len([v for k, v in repo.status().items() if v == GIT_STATUS_WT_NEW])
         if untracked_count > 0:
