@@ -22,7 +22,7 @@
 ```
 
 -   currbranch <!--
-        BUG: Bug with prompt_bar.
+        DONE: Bug with prompt_bar.
         when referencing pygitstatus.branch I get a KeyError.
         Adding a new pygitstatus_branch prompt avoids this but it
         is only inferred if it is also in the PROMPT.

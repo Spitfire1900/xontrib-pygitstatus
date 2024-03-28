@@ -1,5 +1,6 @@
 import contextlib
 import os
+from typing import Optional
 
 # pylint: disable=no-name-in-module
 from pygit2 import (GIT_STATUS_INDEX_MODIFIED, GIT_STATUS_INDEX_NEW, GIT_STATUS_INDEX_RENAMED,
@@ -41,6 +42,12 @@ def behind(fld: PromptField, ctx: PromptFields):
                 ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
 
     fld.value = str(behind) if behind else ''
+
+
+def curr_branch() -> Optional[str]:
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        return repo.head.shorthand
 
 
 @PromptField.wrap(prefix='{CYAN}', info='branch')
@@ -122,6 +129,7 @@ def staged(fld: PromptField, ctx: PromptFields):
         ])
         if untracked_count > 0:
             fld.value = str(untracked_count)
+
 
 @PromptField.wrap(prefix="⚑")
 def stash_count(fld: PromptField, ctx: PromptFields):
