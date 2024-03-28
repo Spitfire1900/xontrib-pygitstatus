@@ -9,7 +9,7 @@ from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 ### .venv/Lib/site-packages/xonsh/prompt/gitstatus.py
 
 
-@PromptField.wrap(prefix="↑·", info="ahead")
+@PromptField.wrap(prefix='↑·', info='ahead')
 def ahead(fld: PromptField, ctx: PromptFields):
     ahead, behind = (0, 0)
     with contextlib.suppress(GitError):
@@ -24,7 +24,7 @@ def ahead(fld: PromptField, ctx: PromptFields):
     fld.value = str(ahead) if ahead else ''
 
 
-@PromptField.wrap(prefix="↓·", info="behind")
+@PromptField.wrap(prefix='↓·', info='behind')
 def behind(fld: PromptField, ctx: PromptFields):
     ahead, behind = (0, 0)
     with contextlib.suppress(GitError):
@@ -39,14 +39,14 @@ def behind(fld: PromptField, ctx: PromptFields):
     fld.value = str(behind) if behind else ''
 
 
-@PromptField.wrap(prefix="{CYAN}", info="branch")
+@PromptField.wrap(prefix='{CYAN}', info='branch')
 def branch(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
         fld.value = repo.head.shorthand
 
 
-@PromptField.wrap(prefix="{BOLD_GREEN}", suffix="{RESET}", symbol="✓")
+@PromptField.wrap(prefix='{BOLD_GREEN}', suffix='{RESET}', symbol='✓')
 def clean(fld: PromptField, ctx: PromptFields):
 
     # symbol attribute is auto-populated by wrap function
