@@ -45,12 +45,6 @@ def behind(fld: PromptField, ctx: PromptFields):
     fld.value = str(_behind) if _behind else ''
 
 
-def curr_branch() -> Optional[str]:
-    with contextlib.suppress(GitError):
-        repo = Repo('.')
-        return repo.head.shorthand
-
-
 @PromptField.wrap(prefix='{CYAN}', info='branch')
 def branch(fld: PromptField, ctx: PromptFields):
     fld.value = ''
@@ -94,6 +88,12 @@ def clean(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
         if len(repo.status()) == 0:
             fld.value = symbol
+
+
+def curr_branch() -> Optional[str]:
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        return repo.head.shorthand
 
 
 @PromptField.wrap(prefix="{RED}-", suffix="{RESET}", info="deleted")
