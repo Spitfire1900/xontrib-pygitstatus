@@ -2,7 +2,7 @@ from collections.abc import MutableMapping
 
 from xonsh.built_ins import XonshSession
 
-from .prompt import ahead, behind, branch, clean, repo_path, short_head, tag
+from .prompt import (ahead, behind, branch, clean, repo_path, short_head, tag, untracked)
 
 
 def _load_xontrib_(xsh: XonshSession, **_):
@@ -24,6 +24,7 @@ def _load_xontrib_(xsh: XonshSession, **_):
     prompt_fields['pygitstatus.repo_path'] = repo_path
     prompt_fields['pygitstatus.short_head'] = short_head
     prompt_fields['pygitstatus.tag'] = tag
+    prompt_fields['pygitstatus.untracked'] = untracked
 
 
 def _unload_xontrib_(xsh: XonshSession, **kwargs) -> dict:

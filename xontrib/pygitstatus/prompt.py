@@ -97,3 +97,13 @@ def tag(fld: PromptField, ctx: PromptFields):
             if head_commit == tag_commit:
                 fld.value = _tag.partition('refs/tags/')[-1]
                 break
+
+
+@PromptField.wrap(prefix="…", info="untracked")
+def untracked(fld: PromptField, ctx: PromptFields):
+    with contextlib.suppress(GitError):
+        fld.value = ''
+        repo = Repo('.')
+        untracked_count = len([v for k, v in repo.status().items() if v == GIT_STATUS_WT_NEW])
+        if untracked_count > 0:
+            fld.value = str(untracked_count)

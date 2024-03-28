@@ -9,7 +9,7 @@
 'gitstatus.branch': <Prompt: gitstatus.branch>, # DONE
 'gitstatus.ahead': <Prompt: gitstatus.ahead>, # DONE
 'gitstatus.behind': <Prompt: gitstatus.behind>, # DONE
-'gitstatus.untracked': <Prompt: gitstatus.untracked>, # TODO
+'gitstatus.untracked': <Prompt: gitstatus.untracked>, # DONE
 'gitstatus.changed': <Prompt: gitstatus.changed>, # TODO
 'gitstatus.deleted': <Prompt: gitstatus.deleted>, # TODO
 'gitstatus.conflicts': <Prompt: gitstatus.conflicts>, # TODO
