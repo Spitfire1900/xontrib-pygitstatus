@@ -107,6 +107,28 @@ def deleted(fld: PromptField, ctx: PromptFields):
             fld.value = str(untracked_count)
 
 
+@PromptField.wrap(prefix="{CYAN}+", suffix="{RESET}")
+def lines_added(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
+
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        diff = repo.diff()
+        if isinstance(diff, Diff) and (inserts := diff.stats.insertions) > 0:
+            fld.value = str(inserts)
+
+
+@PromptField.wrap(prefix="{INTENSE_RED}-", suffix="{RESET}")
+def lines_deleted(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
+
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        diff = repo.diff()
+        if isinstance(diff, Diff) and (deletes := diff.stats.deletions) > 0:
+            fld.value = str(deletes)
+
+
 @PromptField.wrap()
 def numstat(fld: PromptField, ctx: PromptFields):
     fld.value = str((0, 0))
