@@ -1,3 +1,22 @@
 $VC_BRANCH_TIMEOUT = 5
 $VI_MODE = True
 completer remove bash
+
+# THis shouldn't be necessary
+__xonsh__.env['PROMPT_FIELDS']['prompt_end'] = '@'
+
+$XONTRIB_PROMPT_BAR_THEME = {
+    'left': '🐚 {cwd_abs#accent}',
+    # {curr_branch#section} is SPECIFICALLY REMOVED for performance reasons
+    # 'right': '{hist_status#section}{curr_branch#section}{env_name#strip_brackets#section}{date_time_tz}',
+    'right': '{hist_status#section}{env_name#strip_brackets#section}{date_time_tz}',
+    'bar_bg': '{BACKGROUND_#6c6c6c}',
+    'bar_fg': '{#AAA}',
+    'section_bg': '{BACKGROUND_#444}',
+    'section_fg': '{#CCC}',
+    'accent_fg': '{BOLD_#DDD}',
+}
+xontrib load prompt_bar
+# {branch_color} is specifically removed for performance reasons
+# $PROMPT='{prompt_bar}{RESET}\n{gitstatus.behind}{gitstatus.ahead}{gitstatus.changed}{gitstatus.staged}{gitstatus.untracked}{BOLD_BLUE}{branch_color}{prompt_end}{RESET} '
+$PROMPT='{prompt_bar}{RESET}\n{pygitstatus.behind}{pygitstatus.ahead}{pygitstatus.changed}{pygitstatus.staged}{pygitstatus.untracked}{RESET}{prompt_end}{RESET} '
