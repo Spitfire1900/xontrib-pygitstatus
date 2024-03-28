@@ -20,7 +20,7 @@ def _load_xontrib_(xsh: XonshSession, **_) -> dict:
         dict: this will get loaded into the current execution context
     """
 
-    print('Autoloading xontrib: xontrib-pygitstatus')
+    # print('Autoloading xontrib: xontrib-pygitstatus')
 
     # Event hook code, if I ever need it
     # from .event_hooks import listen_cd
