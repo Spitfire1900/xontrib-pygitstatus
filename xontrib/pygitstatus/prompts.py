@@ -159,6 +159,7 @@ def tag_or_hash(fld: PromptField, ctx: PromptFields):
 
     if not fld.value:
         with contextlib.suppress(GitError):
+            repo = Repo('.')
             fld.value = repo.lookup_reference(repo.head.name).peel(Commit).short_id
 
 
