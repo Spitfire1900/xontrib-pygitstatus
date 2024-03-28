@@ -20,3 +20,6 @@
 'gitstatus.clean': <Prompt: gitstatus.clean>, # DONE
 'gitstatus': <Prompt: gitstatus>, # TODO
 ```
+
+currbranch <!-- XXX: MAYBE  -->
+branch_color <!-- TODO  -->
