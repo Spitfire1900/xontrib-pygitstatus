@@ -17,12 +17,9 @@ def _load_xontrib_(xsh: XonshSession, **_) -> dict:
         dict: this will get loaded into the current execution context
     """
 
-    # getting environment variable
-    var = xsh.env.get('VAR', 'default')
-
     print('Autoloading xontrib: xontrib-pygitstatus')
 
-    # I don't think I need event_hooks for a PROMPT
+    # Event hook code, if I ever need it
     # from .event_hooks import listen_cd
     # xsh.builtins.events.on_chdir(listen_cd)
 
