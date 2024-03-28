@@ -2,7 +2,9 @@ import contextlib
 import os
 
 # pylint: disable=no-name-in-module
-from pygit2 import GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, GitError
+from pygit2 import (GIT_STATUS_INDEX_MODIFIED, GIT_STATUS_INDEX_NEW, GIT_STATUS_INDEX_RENAMED,
+                    GIT_STATUS_INDEX_TYPECHANGE, GIT_STATUS_WT_DELETED, GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW,
+                    Commit, GitError)
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 
@@ -59,6 +61,16 @@ def changed(fld: PromptField, ctx: PromptFields):
             fld.value = str(untracked_count)
 
 
+@PromptField.wrap(prefix="{RED}-", suffix="{RESET}", info="deleted")
+def deleted(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        untracked_count = len([v for k, v in repo.status().items() if v == GIT_STATUS_WT_DELETED])
+        if untracked_count > 0:
+            fld.value = str(untracked_count)
+
+
 @PromptField.wrap(prefix='{BOLD_GREEN}', suffix='{RESET}', symbol='✓')
 def clean(fld: PromptField, ctx: PromptFields):
 
@@ -94,6 +106,22 @@ def short_head(fld: PromptField, ctx: PromptFields):
         if (local_commit := repo.get(local_commit_hash)) is not None:
             fld.value = local_commit.short_id
 
+
+@PromptField.wrap(prefix="{RED}●", suffix="{RESET}", info="staged")
+def staged(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        untracked_count = len([
+            v for k, v in repo.status().items() if v in [
+                GIT_STATUS_INDEX_MODIFIED,
+                GIT_STATUS_INDEX_NEW,
+                GIT_STATUS_INDEX_RENAMED,
+                GIT_STATUS_INDEX_TYPECHANGE,
+            ]
+        ])
+        if untracked_count > 0:
+            fld.value = str(untracked_count)
 
 @PromptField.wrap(prefix="⚑")
 def stash_count(fld: PromptField, ctx: PromptFields):
