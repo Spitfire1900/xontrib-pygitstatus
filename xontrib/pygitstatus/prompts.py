@@ -3,8 +3,9 @@ import os
 from typing import Optional
 
 # pylint: disable=no-name-in-module
-from pygit2 import (GIT_STATUS_INDEX_MODIFIED, GIT_STATUS_INDEX_NEW, GIT_STATUS_INDEX_RENAMED,
-                    GIT_STATUS_INDEX_TYPECHANGE, GIT_STATUS_WT_DELETED, GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW,
+from pygit2 import (GIT_STATUS_INDEX_MODIFIED, GIT_STATUS_INDEX_NEW,
+                    GIT_STATUS_INDEX_RENAMED, GIT_STATUS_INDEX_TYPECHANGE,
+                    GIT_STATUS_WT_DELETED, GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW,
                     Commit, GitError)
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
@@ -63,7 +64,8 @@ def changed(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        untracked_count = len([v for k, v in repo.status().items() if v == GIT_STATUS_WT_MODIFIED])
+        untracked_count = len(
+            [v for k, v in repo.status().items() if v == GIT_STATUS_WT_MODIFIED])
         if untracked_count > 0:
             fld.value = str(untracked_count)
 
@@ -73,7 +75,8 @@ def deleted(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        untracked_count = len([v for k, v in repo.status().items() if v == GIT_STATUS_WT_DELETED])
+        untracked_count = len(
+            [v for k, v in repo.status().items() if v == GIT_STATUS_WT_DELETED])
         if untracked_count > 0:
             fld.value = str(untracked_count)
 
@@ -167,6 +170,7 @@ def untracked(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        untracked_count = len([v for k, v in repo.status().items() if v == GIT_STATUS_WT_NEW])
+        untracked_count = len(
+            [v for k, v in repo.status().items() if v == GIT_STATUS_WT_NEW])
         if untracked_count > 0:
             fld.value = str(untracked_count)

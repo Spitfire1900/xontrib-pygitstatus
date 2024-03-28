@@ -2,8 +2,9 @@ from collections.abc import MutableMapping
 
 from xonsh.built_ins import XonshSession
 
-from .prompts import (ahead, behind, branch, changed, clean, curr_branch, deleted, repo_path, short_head, staged,
-                      stash_count, tag, tag_or_hash, untracked)
+from .prompts import (ahead, behind, branch, changed, clean, curr_branch, deleted,
+                      repo_path, short_head, staged, stash_count, tag, tag_or_hash,
+                      untracked)
 
 
 def _load_xontrib_(xsh: XonshSession, **_) -> dict:

@@ -68,6 +68,9 @@ force-exclude = '''
 )/
 '''
 
+[tool.isort]
+line_length = 88
+
 [tool.ruff]
 select = [
     "E",
@@ -82,7 +85,7 @@ select = [
 
 [tool.yapf]
 based_on_style = "pep8"
-column_limit = "120"
+column_limit = "88"
 coalesce_brackets = "True"
 each_dict_entry_on_separate_line = "False"
 dedent_closing_brackets = "False"
