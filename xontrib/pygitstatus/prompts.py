@@ -1,17 +1,62 @@
 import contextlib
 import os
-from typing import Optional
+from typing import List, Optional
 
+import pygit2
 # pylint: disable=no-name-in-module
-from pygit2 import (GIT_STATUS_CONFLICTED, GIT_STATUS_INDEX_MODIFIED,
-                    GIT_STATUS_INDEX_NEW, GIT_STATUS_INDEX_RENAMED,
-                    GIT_STATUS_INDEX_TYPECHANGE, GIT_STATUS_WT_DELETED,
-                    GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, Diff, GitError)
+from pygit2 import (GIT_STATUS_CONFLICTED, GIT_STATUS_INDEX_DELETED,
+                    GIT_STATUS_INDEX_MODIFIED, GIT_STATUS_INDEX_NEW,
+                    GIT_STATUS_INDEX_RENAMED, GIT_STATUS_INDEX_TYPECHANGE,
+                    GIT_STATUS_WT_DELETED, GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW,
+                    Commit, Diff, GitError)
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 from xonsh.prompt.gitstatus import operations as gitstatus_operations
 
 ### .venv/Lib/site-packages/xonsh/prompt/gitstatus.py
+
+
+def __git_status_calulator(file_status: int) -> List[int]:
+    """
+    """
+    # pylint: disable=pointless-string-statement
+    """
+    GIT_STATUS_WT_UNREADABLE: 4096
+    GIT_STATUS_WT_RENAMED: 2048
+    GIT_STATUS_WT_TYPECHANGE: 1024
+    GIT_STATUS_WT_DELETED: 512
+    GIT_STATUS_WT_MODIFIED: 256
+    GIT_STATUS_WT_NEW: 128
+    GIT_STATUS_INDEX_TYPECHANGE: 16
+    GIT_STATUS_INDEX_RENAMED: 8
+    GIT_STATUS_INDEX_DELETED: 4
+    GIT_STATUS_INDEX_MODIFIED: 2
+    GIT_STATUS_INDEX_NEW: 1
+    """
+
+    statuses = []
+    _file_status_worker = file_status
+
+    # pylint: disable=no-member
+    for status_int in [
+            pygit2.GIT_STATUS_WT_UNREADABLE,  # 4096
+            pygit2.GIT_STATUS_WT_RENAMED,  # 2048
+            pygit2.GIT_STATUS_WT_TYPECHANGE,  # 1024
+            pygit2.GIT_STATUS_WT_DELETED,  # 512
+            pygit2.GIT_STATUS_WT_MODIFIED,  # 256
+            pygit2.GIT_STATUS_WT_NEW,  # 128
+            pygit2.GIT_STATUS_INDEX_TYPECHANGE,  # 16
+            pygit2.GIT_STATUS_INDEX_RENAMED,  # 8
+            pygit2.GIT_STATUS_INDEX_DELETED,  # 4
+            pygit2.GIT_STATUS_INDEX_MODIFIED,  # 2
+            pygit2.GIT_STATUS_INDEX_NEW,  # 1
+    ]:
+        if _file_status_worker == 0:
+            break
+        if _file_status_worker - status_int >= 0:
+            statuses.append(status_int)
+            _file_status_worker = _file_status_worker % status_int
+    return statuses
 
 
 @PromptField.wrap(prefix='↑·', info='ahead', name='pygitstatus.ahead')
@@ -104,12 +149,25 @@ def curr_branch() -> Optional[str]:
                   name='pygitstatus.deleted')
 def deleted(fld: PromptField, ctx: PromptFields):
     fld.value = ''
+    deleted_count = 0
+
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        untracked_count = len(
-            [v for k, v in repo.status().items() if v == GIT_STATUS_WT_DELETED])
-        if untracked_count > 0:
-            fld.value = str(untracked_count)
+
+        for k, v in repo.status().items():
+            statuses = __git_status_calulator(v)
+            is_deleted = False
+            for status in statuses:
+                if status in [
+                        GIT_STATUS_INDEX_DELETED,
+                        GIT_STATUS_WT_DELETED,
+                ]:
+                    is_deleted = True
+                    break
+            if is_deleted:
+                deleted_count = deleted_count + 1
+        if deleted_count > 0:
+            fld.value = str(deleted_count)
 
 
 @PromptField.wrap(prefix="{CYAN}+", suffix="{RESET}", name='pygitstatus.lines_added')

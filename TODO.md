@@ -10,7 +10,7 @@
 'gitstatus.ahead': <Prompt: gitstatus.ahead>, # DONE
 'gitstatus.behind': <Prompt: gitstatus.behind>, # DONE
 'gitstatus.untracked': <Prompt: gitstatus.untracked>, # DONE
-'gitstatus.changed': <Prompt: gitstatus.changed>, # DONE
+'gitstatus.changed': <Prompt: gitstatus.changed>, # PARTIAL
 'gitstatus.deleted': <Prompt: gitstatus.deleted>, # DONE
 'gitstatus.conflicts': <Prompt: gitstatus.conflicts>, # DONE
 'gitstatus.staged': <Prompt: gitstatus.staged>, # DONE
