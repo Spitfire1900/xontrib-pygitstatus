@@ -28,6 +28,7 @@ def _load_xontrib_(xsh: XonshSession, **_) -> dict:
     prompt_fields = xsh.env.get('PROMPT_FIELDS')  # type: ignore
     prompt_fields['pygitstatus.ahead'] = ahead
     prompt_fields['pygitstatus.behind'] = behind
+    prompt_fields['pygitstatus_branch'] = branch
     prompt_fields['pygitstatus.branch'] = branch
     prompt_fields['pygitstatus.changed'] = changed
     prompt_fields['pygitstatus.clean'] = clean

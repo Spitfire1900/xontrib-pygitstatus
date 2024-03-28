@@ -21,7 +21,13 @@
 'gitstatus': <Prompt: gitstatus>, # TODO
 ```
 
--   currbranch <!-- XXX: MAYBE: this is used by prompt_bar I get key errors referencing pygitstatus PROMPTS from it  -->
+-   currbranch <!--
+        BUG: Bug with prompt_bar.
+        when referencing pygitstatus.branch I get a KeyError.
+        Adding a new pygitstatus_branch prompt avoids this but it
+        is only inferred if it is also in the PROMPT.
+        In addition it only correctly displays on n+1 prompts, not the next prompt.
+        -->
 -   branch_color <!-- TODO  -->
 -   ALL Prompts need the name field set. <!-- TODO  -->
 -   Prompts like deleted, changed, etc. need to consider that status() combines the INDEX and WT status

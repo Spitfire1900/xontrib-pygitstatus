@@ -7,8 +7,8 @@ completer remove bash
 $XONTRIB_PROMPT_BAR_THEME = {
     'left': '🐚 {cwd_abs#accent}',
     # {curr_branch#section} is SPECIFICALLY REMOVED for performance reasons
-    # 'right': '{hist_status#section}{curr_branch#section}{env_name#strip_brackets#section}{date_time_tz}',
-    'right': '{hist_status#section}{env_name#strip_brackets#section}{date_time_tz}',
+    'right': '{hist_status#section}{pygitstatus_branch#section}{env_name#strip_brackets#section}{date_time_tz}',
+    # 'right': '{hist_status#section}{env_name#strip_brackets#section}{date_time_tz}',
     'bar_bg': '{BACKGROUND_#6c6c6c}',
     'bar_fg': '{#AAA}',
     'section_bg': '{BACKGROUND_#444}',
