@@ -2,8 +2,7 @@ $VC_BRANCH_TIMEOUT = 5
 $VI_MODE = True
 completer remove bash
 
-# THis shouldn't be necessary
-__xonsh__.env['PROMPT_FIELDS']['prompt_end'] = '@'
+# On old xonsh prompt is $
 
 $XONTRIB_PROMPT_BAR_THEME = {
     'left': '🐚 {cwd_abs#accent}',
