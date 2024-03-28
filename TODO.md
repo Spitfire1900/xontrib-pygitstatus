@@ -21,7 +21,7 @@
 'gitstatus': <Prompt: gitstatus>, # TODO
 ```
 
--   currbranch <!-- XXX: MAYBE  -->
+-   currbranch <!-- XXX: MAYBE: this is used by prompt_bar I get key errors referencing pygitstatus PROMPTS from it  -->
 -   branch_color <!-- TODO  -->
 -   ALL Prompts need the name field set. <!-- TODO  -->
 -   Prompts like deleted, changed, etc. need to consider that status() combines the INDEX and WT status
