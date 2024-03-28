@@ -16,7 +16,7 @@ from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 @PromptField.wrap(prefix='↑·', info='ahead')
 def ahead(fld: PromptField, ctx: PromptFields):
     fld.value = ''
-    ahead, behind = (0, 0)
+    _ahead, _behind = (0, 0)
     with contextlib.suppress(GitError):
         repo = Repo('.')
 
@@ -24,15 +24,15 @@ def ahead(fld: PromptField, ctx: PromptFields):
         local_branch = repo.branches.get(repo.head.shorthand)
         if local_branch is not None and (upstream := local_branch.upstream) is not None:
             upstream_commit = upstream.target
-            ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
+            _ahead, _behind = repo.ahead_behind(local_commit, upstream_commit)
 
-    fld.value = str(ahead) if ahead else ''
+    fld.value = str(_ahead) if _ahead else ''
 
 
 @PromptField.wrap(prefix='↓·', info='behind')
 def behind(fld: PromptField, ctx: PromptFields):
     fld.value = ''
-    ahead, behind = (0, 0)
+    _ahead, _behind = (0, 0)
     with contextlib.suppress(GitError):
         repo = Repo('.')
 
@@ -40,9 +40,9 @@ def behind(fld: PromptField, ctx: PromptFields):
         local_branch = repo.branches.get(repo.head.shorthand)
         if local_branch is not None and (upstream := local_branch.upstream) is not None:
             upstream_commit = upstream.target
-            ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
+            _ahead, _behind = repo.ahead_behind(local_commit, upstream_commit)
 
-    fld.value = str(behind) if behind else ''
+    fld.value = str(_behind) if _behind else ''
 
 
 def curr_branch() -> Optional[str]:
