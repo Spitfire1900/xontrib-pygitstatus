@@ -1,2 +1,3 @@
+$VC_BRANCH_TIMEOUT = 5
 $VI_MODE = True
 completer remove bash
