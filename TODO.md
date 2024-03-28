@@ -29,8 +29,8 @@
         In addition it only correctly displays on n+1 prompts, not the next prompt.
         -->
 -   branch_color <!-- TODO  -->
--   ALL Prompts need the name field set. <!-- TODO  -->
--   Prompts like deleted, changed, etc. need to consider that status() combines the INDEX and WT status
+-   ALL Prompts need the name field set. <!-- DONE  -->
+-   Prompts like deleted, changed, etc. need to consider that status() combines the INDEX and WT status <!-- DONE  -->
 
     ```python
     """
