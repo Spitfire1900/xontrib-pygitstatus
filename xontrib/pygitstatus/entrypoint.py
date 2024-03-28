@@ -4,8 +4,8 @@ from xonsh.built_ins import XonshSession
 
 from .prompts import (ahead, behind, branch, changed, clean, conflicts, curr_branch,
                       deleted, gitstatus, lines_added, lines_deleted, numstat,
-                      repo_path, short_head, staged, stash_count, tag, tag_or_hash,
-                      untracked)
+                      operations, repo_path, short_head, staged, stash_count, tag,
+                      tag_or_hash, untracked)
 
 
 def _load_xontrib_(xsh: XonshSession, **_) -> dict:
@@ -41,6 +41,7 @@ def _load_xontrib_(xsh: XonshSession, **_) -> dict:
     prompt_fields['pygitstatus.lines_added'] = lines_added
     prompt_fields['pygitstatus.lines_deleted'] = lines_deleted
     prompt_fields['pygitstatus.numstat'] = numstat
+    prompt_fields['pygitstatus.operations'] = operations
     prompt_fields['pygitstatus.repo_path'] = repo_path
     prompt_fields['pygitstatus.short_head'] = short_head
     prompt_fields['pygitstatus.staged'] = staged

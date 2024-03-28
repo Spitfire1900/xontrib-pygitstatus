@@ -9,6 +9,7 @@ from pygit2 import (GIT_STATUS_CONFLICTED, GIT_STATUS_INDEX_MODIFIED,
                     GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, Diff, GitError)
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
+from xonsh.prompt.gitstatus import operations as gitstatus_operations
 
 ### .venv/Lib/site-packages/xonsh/prompt/gitstatus.py
 
@@ -149,6 +150,9 @@ def numstat(fld: PromptField, ctx: PromptFields):
     fld.value = str((insert, delete))
 
 
+operations = gitstatus_operations
+
+
 @PromptField.wrap(name='pygitstatus.repo_path')
 def repo_path(fld: PromptField, ctx: PromptFields):
     fld.value = ''
@@ -238,7 +242,7 @@ class GitStatus(MultiPromptField):
         ".branch",
         ".ahead",
         ".behind",
-        "gitstatus.operations",  # does not use subprocess calls
+        ".operations",
         "{RESET}|",
         ".staged",
         ".conflicts",
