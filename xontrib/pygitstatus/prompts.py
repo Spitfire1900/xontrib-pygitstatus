@@ -70,8 +70,8 @@ def changed(fld: PromptField, ctx: PromptFields):
             fld.value = str(untracked_count)
 
 
-@PromptField.wrap(prefix="{RED}-", suffix="{RESET}", info="deleted")
-def conflict(fld: PromptField, ctx: PromptFields):
+@PromptField.wrap(prefix="{RED}×", suffix="{RESET}", info="conflicts")
+def conflicts(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
