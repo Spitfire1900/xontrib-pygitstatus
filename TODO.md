@@ -10,7 +10,7 @@
 'gitstatus.ahead': <Prompt: gitstatus.ahead>, # DONE
 'gitstatus.behind': <Prompt: gitstatus.behind>, # DONE
 'gitstatus.untracked': <Prompt: gitstatus.untracked>, # DONE
-'gitstatus.changed': <Prompt: gitstatus.changed>, # PARTIAL
+'gitstatus.changed': <Prompt: gitstatus.changed>, # DONE
 'gitstatus.deleted': <Prompt: gitstatus.deleted>, # DONE
 'gitstatus.conflicts': <Prompt: gitstatus.conflicts>, # DONE
 'gitstatus.staged': <Prompt: gitstatus.staged>, # DONE
@@ -31,6 +31,7 @@
 -   branch_color <!-- TODO  -->
 -   ALL Prompts need the name field set. <!-- TODO  -->
 -   Prompts like deleted, changed, etc. need to consider that status() combines the INDEX and WT status
+
     ```python
     """
     GIT_STATUS_INDEX_DELETED: 4
@@ -40,6 +41,8 @@
     GIT_STATUS_INDEX_TYPECHANGE: 16
     GIT_STATUS_WT_DELETED: 512
     GIT_STATUS_WT_MODIFIED: 256
+
+
     GIT_STATUS_WT_NEW: 128
     GIT_STATUS_WT_RENAMED: 2048
     GIT_STATUS_WT_TYPECHANGE: 1024

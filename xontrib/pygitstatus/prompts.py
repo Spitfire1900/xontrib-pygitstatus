@@ -103,12 +103,19 @@ def branch(fld: PromptField, ctx: PromptFields):
                   name='pygitstatus.changed')
 def changed(fld: PromptField, ctx: PromptFields):
     fld.value = ''
+    count = 0
+
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        untracked_count = len(
-            [v for k, v in repo.status().items() if v == GIT_STATUS_WT_MODIFIED])
-        if untracked_count > 0:
-            fld.value = str(untracked_count)
+
+        for k, v in repo.status().items():
+            statuses = __git_status_calulator(v)
+            # We don't care about the index
+            is_true = GIT_STATUS_WT_MODIFIED in statuses
+            if is_true:
+                count = count + 1
+        if count > 0:
+            fld.value = str(count)
 
 
 @PromptField.wrap(prefix="{RED}×", suffix="{RESET}", info="conflicts",
@@ -149,25 +156,19 @@ def curr_branch() -> Optional[str]:
                   name='pygitstatus.deleted')
 def deleted(fld: PromptField, ctx: PromptFields):
     fld.value = ''
-    deleted_count = 0
+    count = 0
 
     with contextlib.suppress(GitError):
         repo = Repo('.')
 
         for k, v in repo.status().items():
             statuses = __git_status_calulator(v)
-            is_deleted = False
-            for status in statuses:
-                if status in [
-                        GIT_STATUS_INDEX_DELETED,
-                        GIT_STATUS_WT_DELETED,
-                ]:
-                    is_deleted = True
-                    break
-            if is_deleted:
-                deleted_count = deleted_count + 1
-        if deleted_count > 0:
-            fld.value = str(deleted_count)
+            # We don't care about the index.
+            is_true = GIT_STATUS_WT_DELETED in statuses
+            if is_true:
+                count = count + 1
+        if count > 0:
+            fld.value = str(count)
 
 
 @PromptField.wrap(prefix="{CYAN}+", suffix="{RESET}", name='pygitstatus.lines_added')
