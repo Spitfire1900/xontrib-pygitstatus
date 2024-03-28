@@ -21,10 +21,10 @@ def ahead(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
 
         local_commit = repo.head.target
-        if local_branch := repo.branches.get(repo.head.shorthand):
-            if (upstream := local_branch.upstream) is not None:
-                upstream_commit = upstream.target
-                ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
+        local_branch = repo.branches.get(repo.head.shorthand)
+        if local_branch is not None and (upstream := local_branch.upstream) is not None:
+            upstream_commit = upstream.target
+            ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
 
     fld.value = str(ahead) if ahead else ''
 
@@ -37,10 +37,10 @@ def behind(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
 
         local_commit = repo.head.target
-        if local_branch := repo.branches.get(repo.head.shorthand):
-            if (upstream := local_branch.upstream) is not None:
-                upstream_commit = upstream.target
-                ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
+        local_branch = repo.branches.get(repo.head.shorthand)
+        if local_branch is not None and (upstream := local_branch.upstream) is not None:
+            upstream_commit = upstream.target
+            ahead, behind = repo.ahead_behind(local_commit, upstream_commit)
 
     fld.value = str(behind) if behind else ''
 
