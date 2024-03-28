@@ -3,7 +3,7 @@ from collections.abc import MutableMapping
 from xonsh.built_ins import XonshSession
 
 from .prompts import (ahead, behind, branch, changed, clean, conflicts, curr_branch,
-                      deleted, repo_path, short_head, staged, stash_count, tag,
+                      deleted, numstat, repo_path, short_head, staged, stash_count, tag,
                       tag_or_hash, untracked)
 
 
@@ -36,6 +36,7 @@ def _load_xontrib_(xsh: XonshSession, **_) -> dict:
     prompt_fields['pygitstatus.clean'] = clean
     prompt_fields['pygitstatus.conflicts'] = conflicts
     prompt_fields['pygitstatus.deleted'] = deleted
+    prompt_fields['pygitstatus.numstat'] = numstat
     prompt_fields['pygitstatus.repo_path'] = repo_path
     prompt_fields['pygitstatus.short_head'] = short_head
     prompt_fields['pygitstatus.staged'] = staged

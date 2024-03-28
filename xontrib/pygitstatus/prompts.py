@@ -6,7 +6,7 @@ from typing import Optional
 from pygit2 import (GIT_STATUS_CONFLICTED, GIT_STATUS_INDEX_MODIFIED,
                     GIT_STATUS_INDEX_NEW, GIT_STATUS_INDEX_RENAMED,
                     GIT_STATUS_INDEX_TYPECHANGE, GIT_STATUS_WT_DELETED,
-                    GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, GitError)
+                    GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, Diff, GitError)
 from pygit2 import Repository as Repo
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 
@@ -81,17 +81,6 @@ def conflicts(fld: PromptField, ctx: PromptFields):
             fld.value = str(conflicted_count)
 
 
-@PromptField.wrap(prefix="{RED}-", suffix="{RESET}", info="deleted")
-def deleted(fld: PromptField, ctx: PromptFields):
-    fld.value = ''
-    with contextlib.suppress(GitError):
-        repo = Repo('.')
-        untracked_count = len(
-            [v for k, v in repo.status().items() if v == GIT_STATUS_WT_DELETED])
-        if untracked_count > 0:
-            fld.value = str(untracked_count)
-
-
 @PromptField.wrap(prefix='{BOLD_GREEN}', suffix='{RESET}', symbol='✓')
 def clean(fld: PromptField, ctx: PromptFields):
 
@@ -105,6 +94,32 @@ def clean(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
         if len(repo.status()) == 0:
             fld.value = symbol
+
+
+@PromptField.wrap(prefix="{RED}-", suffix="{RESET}", info="deleted")
+def deleted(fld: PromptField, ctx: PromptFields):
+    fld.value = ''
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        untracked_count = len(
+            [v for k, v in repo.status().items() if v == GIT_STATUS_WT_DELETED])
+        if untracked_count > 0:
+            fld.value = str(untracked_count)
+
+
+@PromptField.wrap()
+def numstat(fld: PromptField, ctx: PromptFields):
+    fld.value = str((0, 0))
+    insert = 0
+    delete = 0
+
+    with contextlib.suppress(GitError):
+        repo = Repo('.')
+        diff = repo.diff()
+        if isinstance(diff, Diff):
+            insert = diff.stats.insertions
+            delete = diff.stats.deletions
+    fld.value = str((insert, delete))
 
 
 @PromptField.wrap()

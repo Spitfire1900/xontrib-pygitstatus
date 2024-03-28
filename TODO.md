@@ -14,7 +14,7 @@
 'gitstatus.deleted': <Prompt: gitstatus.deleted>, # DONE
 'gitstatus.conflicts': <Prompt: gitstatus.conflicts>, # DONE
 'gitstatus.staged': <Prompt: gitstatus.staged>, # DONE
-'gitstatus.numstat': <Prompt: gitstatus.numstat>, # TODO
+'gitstatus.numstat': <Prompt: gitstatus.numstat>, # DONE
 'gitstatus.lines_added': <Prompt: gitstatus.lines_added>, # TODO
 'gitstatus.lines_removed': <Prompt: gitstatus.lines_removed> # TODO ,
 'gitstatus.clean': <Prompt: gitstatus.clean>, # DONE
