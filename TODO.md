@@ -4,7 +4,7 @@
 'gitstatus.tag': <Prompt: gitstatus.tag>, # DONE
 'gitstatus.tag_or_hash': <Prompt: gitstatus.tag_or_hash>, # DONE
 'gitstatus.stash_count': <Prompt: gitstatus.stash_count>, # DONE
-'gitstatus.operations': <Prompt: gitstatus.operations>, # TODO
+'gitstatus.operations': <Prompt: gitstatus.operations>, # NA: No subprocess calls used
 'gitstatus.porcelain': <Prompt: gitstatus.porcelain>, # TODO
 'gitstatus.branch': <Prompt: gitstatus.branch>, # DONE
 'gitstatus.ahead': <Prompt: gitstatus.ahead>, # DONE
