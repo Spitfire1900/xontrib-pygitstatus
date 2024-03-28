@@ -2,7 +2,7 @@ from collections.abc import MutableMapping
 
 from xonsh.built_ins import XonshSession
 
-from .prompt import (ahead, behind, branch, clean, repo_path, short_head, tag, untracked)
+from .prompts import (ahead, behind, branch, clean, repo_path, short_head, tag, untracked)
 
 
 def _load_xontrib_(xsh: XonshSession, **_):
