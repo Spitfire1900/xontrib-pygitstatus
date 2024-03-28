@@ -21,5 +21,6 @@
 'gitstatus': <Prompt: gitstatus>, # TODO
 ```
 
-currbranch <!-- XXX: MAYBE  -->
-branch_color <!-- TODO  -->
+-   currbranch <!-- XXX: MAYBE  -->
+-   branch_color <!-- TODO  -->
+-   ALL Prompts need the name field set.
