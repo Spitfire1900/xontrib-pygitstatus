@@ -146,17 +146,7 @@ def tag(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        head_commit = repo.get(repo.head.target)
-
-        tags = (_ for _ in repo.references if _.startswith('refs/tags'))
-        # git describe show the latest tag,
-        # repo.references is alphabetical
-        for _tag in tags:
-            reference = repo.lookup_reference(_tag)
-            tag_commit = reference.peel(Commit)
-            if head_commit == tag_commit:
-                fld.value = _tag.partition('refs/tags/')[-1]
-                break
+        fld.value = repo.describe()
 
 
 @PromptField.wrap(prefix="…", info="untracked")
