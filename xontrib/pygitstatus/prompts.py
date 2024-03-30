@@ -18,7 +18,7 @@ from xonsh.prompt.gitstatus import operations as gitstatus_operations
 def __git_status_list(file_status: int) -> List[int]:
     """
     """
-    # pylint: disable=pointless-string-statement
+    # pylint: disable=pointless-string-statement,line-too-long
     """
     GIT_STATUS_WT_UNREADABLE: 4096
     GIT_STATUS_WT_RENAMED: 2048
@@ -31,6 +31,25 @@ def __git_status_list(file_status: int) -> List[int]:
     GIT_STATUS_INDEX_DELETED: 4
     GIT_STATUS_INDEX_MODIFIED: 2
     GIT_STATUS_INDEX_NEW: 1
+
+    TODO: Switch to bitwise operations
+    @ [print("{:>013b} is the binary representation of {:>2}".format(i,i)) for i in [4096, 2048, 1024, 512, 256, 128, 16, 8, 4, 2, 1]]
+        1000000000000 is the binary representation of 4096
+        0100000000000 is the binary representation of 2048
+        0010000000000 is the binary representation of 1024
+        0001000000000 is the binary representation of 512
+        0000100000000 is the binary representation of 256
+        0000010000000 is the binary representation of 128
+        0000000010000 is the binary representation of 16
+        0000000001000 is the binary representation of  8
+        0000000000100 is the binary representation of  4
+        0000000000010 is the binary representation of  2
+        0000000000001 is the binary representation of  1
+    @ print("{:>013b}".format(258)); print("{:>013b}".format(256))
+        0000100000010
+        0000100000000
+    @ 256 ^ 258
+        2
     """
 
     statuses = []
