@@ -314,7 +314,8 @@ def tag_or_hash(fld: PromptField, ctx: PromptFields):
     if not fld.value:
         with contextlib.suppress(GitError):
             repo = Repo('.')
-            fld.value = repo.lookup_reference(repo.head.name).peel(Commit).short_id
+            fld.value = repo.lookup_reference(repo.head.name).peel(
+                Commit).short_id  #type: ignore # pylance can't tell that this is fine
 
 
 @PromptField.wrap(prefix="…", info="untracked", name='pygitstatus.untracked')
