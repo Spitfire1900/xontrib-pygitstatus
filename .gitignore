@@ -152,3 +152,4 @@ xontrib/__init__.py
 ### Local testiong
 
 .xdg/
+.venv*/
