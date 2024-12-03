@@ -6,9 +6,7 @@
     },
     "json.schemas": [
         {
-            "fileMatch": [
-                "/.vscode/settings.default.json"
-            ],
+            "fileMatch": ["/.vscode/settings.default.json"],
             "url": "vscode://schemas/settings/folder"
         }
     ],
@@ -23,9 +21,7 @@
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.diagnosticMode": "workspace",
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
-    "python.testing.pytestArgs": [
-        "src"
-    ],
+    "python.testing.pytestArgs": ["tests"],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "ruff.fixAll": false,
@@ -34,5 +30,5 @@
         "editor.defaultFormatter": "tamasfe.even-better-toml"
     },
     "workspace-default-settings.jsonIndentation": 4,
-    "workspace-default-settings.runOnActivation": true,
+    "workspace-default-settings.runOnActivation": true
 }
