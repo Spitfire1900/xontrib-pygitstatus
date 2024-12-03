@@ -51,13 +51,24 @@ def test_it_loads(load_xontrib):
 
 @pytest.fixture(scope="module", autouse=True)
 def xsh():
+    from xonsh.__amalgam__ import _autoload_xontribs
     from xonsh.built_ins import XSH  # Xonsh session singleton
+    # from xonsh.built_ins import XonshSession as XSH  # Xonsh session singleton
+    from xonsh.environ import default_env
+
+    # XSH.load(env=default_env())
     XSH.load()
+    _autoload_xontribs({})
+
+    # XSH.load(env=Env(default_env({'XONTRIBS_AUTOLOAD_DISABLED':
+    #                               False})))  # has no effect
+    # XSH.load(env=Env(default_env({'XONTRIBS_AUTOLOAD_DISABLED':
+    #                               False})))  # has no effect
     xonsh_env: Env = XSH.env  # type: ignore reportAssignmentType
     xonsh_env['XONSH_SHOW_TRACEBACK'] = True
     shell: Shell = XSH.shell  # type: ignore reportAssignmentType
-    from xontrib.pygitstatus import entrypoint
-    entrypoint._load_xontrib_(XSH)
+    # from xontrib.pygitstatus import entrypoint
+    # entrypoint._load_xontrib_(XSH)
     xontib_list = shell.default(
         'xontrib list'
     )  # pytest --capture=no -k test_clean prints this: pygitstatus         loaded      manual
