@@ -56,9 +56,11 @@ def xsh():
     xonsh_env: Env = XSH.env  # type: ignore reportAssignmentType
     xonsh_env['XONSH_SHOW_TRACEBACK'] = True
     shell: Shell = XSH.shell  # type: ignore reportAssignmentType
+    from xontrib.pygitstatus import entrypoint
+    entrypoint._load_xontrib_(XSH)
     xontib_list = shell.default(
         'xontrib list'
-    )  # pytest --capture=no -k test_clean prints this: AttributeError: 'EntryPoint' object has no attribute 'dist'
+    )  # pytest --capture=no -k test_clean prints this: pygitstatus         loaded      manual
     _ = xontribs_loaded()
     breakpoint()
     yield XSH
