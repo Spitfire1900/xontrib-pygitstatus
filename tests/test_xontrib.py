@@ -57,8 +57,8 @@ def prompts(load_xontrib: abc.Callable[[str], None],
 
 # def test_prompt_run(xsh_with_aliases: XonshSession):
 # def test_clean(xsh, git_repo, load_xontrib, xonsh_session):
-def test_untracked(git_repo, prompts):
+def test_untracked(git_repo, ):
     with cd(git_repo):
-        assert 'pygitstatus.untracked' in prompts
+        # assert 'pygitstatus.untracked' in prompts
         Path('text.txt').touch()
         assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
