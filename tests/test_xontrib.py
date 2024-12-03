@@ -43,21 +43,7 @@ def test_autoload(xonsh_session: XonshSession):
     assert 'pygitstatus' in xontribs_loaded()
 
 
-@pytest.fixture(scope="function", autouse=True)
-def prompts(load_xontrib: abc.Callable[[str], None],
-            xonsh_session: XonshSession) -> abc.Generator[PromptFields, Any, Any]:
-    load_xontrib('pygitstatus')
-    assert 'pygitstatus' in xontribs_loaded()
-    xonsh_env: Env = xonsh_session.env  # type: ignore reportAssignmentType
-    prompts: PromptFields = xonsh_env.get(
-        'PROMPT_FIELDS')  # type: ignore reportAssignmentType
-    assert 'pygitstatus' in prompts
-    yield prompts
-
-
-# def test_prompt_run(xsh_with_aliases: XonshSession):
-# def test_clean(xsh, git_repo, load_xontrib, xonsh_session):
-def test_untracked(git_repo, ):
+def test_untracked(git_repo):
     with cd(git_repo):
         # assert 'pygitstatus.untracked' in prompts
         Path('text.txt').touch()
