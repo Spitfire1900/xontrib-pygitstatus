@@ -93,7 +93,7 @@ def test_untracked(git_repo, load_xontrib: abc.Callable[[str], None],
         xonsh_env: Env = xonsh_session.env  # type: ignore reportAssignmentType
         prompts: PromptFields = xonsh_env.get(
             'PROMPT_FIELDS')  # type: ignore reportAssignmentType
-        assert 'pygitstatus.clean' in prompts
+        assert 'pygitstatus.untracked' in prompts
         from xonsh.prompt.base import PromptFormatter
         Path('text.txt').touch()
         assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
