@@ -1,5 +1,6 @@
 import contextlib
 import os
+from collections import abc
 from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -8,6 +9,7 @@ import pytest
 from git import Repo
 from xonsh.built_ins import XonshSession
 from xonsh.environ import Env
+from xonsh.prompt.base import PromptFields
 from xonsh.shell import Shell
 from xonsh.xontribs import xontribs_loaded
 
@@ -45,11 +47,14 @@ def cd(path: PathLike):
         os.chdir(old_dir)
 
 
-def test_it_loads(load_xontrib):
-    load_xontrib("pygitstatus")
+# def test_autoload(load_xontrib):
+def test_autoload(xonsh_session: XonshSession):
+    from xonsh.main import _autoload_xontribs
+    _autoload_xontribs({})
+    assert 'pygitstatus' in xontribs_loaded()
 
 
-@pytest.fixture(scope="module", autouse=True)
+# @pytest.fixture(scope="module", autouse=True)
 def xsh():
     from xonsh.__amalgam__ import _autoload_xontribs
     from xonsh.built_ins import XSH  # Xonsh session singleton
@@ -67,8 +72,8 @@ def xsh():
     xonsh_env: Env = XSH.env  # type: ignore reportAssignmentType
     xonsh_env['XONSH_SHOW_TRACEBACK'] = True
     shell: Shell = XSH.shell  # type: ignore reportAssignmentType
-    # from xontrib.pygitstatus import entrypoint
-    # entrypoint._load_xontrib_(XSH)
+    from xontrib.pygitstatus import entrypoint
+    entrypoint._load_xontrib_(XSH)
     xontib_list = shell.default(
         'xontrib list'
     )  # pytest --capture=no -k test_clean prints this: pygitstatus         loaded      manual
@@ -79,9 +84,19 @@ def xsh():
 
 
 # def test_prompt_run(xsh_with_aliases: XonshSession):
-def test_clean(xsh, git_repo, load_xontrib, xonsh_session):
+# def test_clean(xsh, git_repo, load_xontrib, xonsh_session):
+def test_untracked(git_repo, load_xontrib: abc.Callable[[str], None],
+                   xonsh_session: XonshSession):
     with cd(git_repo):
+        load_xontrib('pygitstatus')
+        assert 'pygitstatus' in xontribs_loaded()
+        xonsh_env: Env = xonsh_session.env  # type: ignore reportAssignmentType
+        prompts: PromptFields = xonsh_env.get(
+            'PROMPT_FIELDS')  # type: ignore reportAssignmentType
+        assert 'pygitstatus.clean' in prompts
+        from xonsh.prompt.base import PromptFormatter
         Path('text.txt').touch()
-        breakpoint()
-        _ = prompts.pick("pygitstatus")
-        print('')
+        assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
+        # _ = prompts.pick("pygitstatus")
+        # breakpoint()
+        # print('')
