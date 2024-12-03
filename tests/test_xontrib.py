@@ -43,8 +43,12 @@ def test_autoload(xonsh_session: XonshSession):
     assert 'pygitstatus' in xontribs_loaded()
 
 
+def test_clean(git_repo):
+    with cd(git_repo):
+        assert PromptFormatter()('{pygitstatus.clean}') == '{BOLD_GREEN}✓{RESET}'
+
+
 def test_untracked(git_repo):
     with cd(git_repo):
-        # assert 'pygitstatus.untracked' in prompts
         Path('text.txt').touch()
         assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
