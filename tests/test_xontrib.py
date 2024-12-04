@@ -36,6 +36,18 @@ def cd(path: PathLike):
         os.chdir(old_dir)
 
 
+@pytest.fixture(scope="function", autouse=True)
+def prompts(load_xontrib: abc.Callable[[str], None],
+            xonsh_session: XonshSession) -> abc.Generator[PromptFields, Any, Any]:
+    load_xontrib('pygitstatus')
+    assert 'pygitstatus' in xontribs_loaded()
+    xonsh_env: Env = xonsh_session.env  # type: ignore reportAssignmentType
+    prompts: PromptFields = xonsh_env.get(
+        'PROMPT_FIELDS')  # type: ignore reportAssignmentType
+    assert 'pygitstatus' in prompts
+    yield prompts
+
+
 # def test_autoload(load_xontrib):
 def test_autoload(xonsh_session: XonshSession):
     from xonsh.main import _autoload_xontribs
@@ -48,7 +60,7 @@ def test_clean(git_repo):
         assert PromptFormatter()('{pygitstatus.clean}') == '{BOLD_GREEN}✓{RESET}'
 
 
-def test_untracked(git_repo):
+def test_untracked(git_repo, prompts):
     with cd(git_repo):
         Path('text.txt').touch()
         assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
