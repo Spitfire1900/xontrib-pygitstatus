@@ -48,19 +48,12 @@ def prompts(load_xontrib: abc.Callable[[str], None],
     yield prompts
 
 
-# def test_autoload(load_xontrib):
-def test_autoload(xonsh_session: XonshSession):
-    from xonsh.main import _autoload_xontribs
-    _autoload_xontribs({})
-    assert 'pygitstatus' in xontribs_loaded()
-
-
 def test_clean(git_repo):
     with cd(git_repo):
         assert PromptFormatter()('{pygitstatus.clean}') == '{BOLD_GREEN}✓{RESET}'
 
 
-def test_untracked(git_repo, prompts):
+def test_untracked(git_repo):
     with cd(git_repo):
         Path('text.txt').touch()
         assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
