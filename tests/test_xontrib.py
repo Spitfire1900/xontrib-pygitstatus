@@ -48,6 +48,15 @@ def prompts(load_xontrib: abc.Callable[[str], None],
     yield prompts
 
 
+def test_branch(git_repo):
+    with cd(git_repo):
+        repo = Repo(git_repo).init()
+        repo.index.commit('initial commit')
+        repo.create_head('test_branch')
+        repo.git.checkout('test_branch')
+        assert PromptFormatter()('{pygitstatus.branch}') == '{CYAN}test_branch'
+
+
 def test_clean(git_repo):
     with cd(git_repo):
         assert PromptFormatter()('{pygitstatus.clean}') == '{BOLD_GREEN}✓{RESET}'
