@@ -50,6 +50,9 @@ def __git_status_list(file_status: int) -> List[int]:
         0000100000000
     @ 256 ^ 258
         2
+    @ 528 ^ 16 in [4096, 2048, 1024, 512, 256, 128, 16, 8, 4, 2, 1]
+        True
+        # This has GIT_STATUS_INDEX_TYPECHANGE status
     """
 
     statuses = []
