@@ -244,6 +244,31 @@ def test_numstat(git_repo):
             '{pygitstatus.numstat}') == f'({insertions}, {deletions})'
 
 
+def test_operations(git_repo):
+    with cd(git_repo.working_tree_dir):
+        base_commit = git_repo.index.commit('initial commit')
+        default_branch = git_repo.active_branch.name
+        conflict_file = Path('conflict_file.txt')
+
+        conflict_file.write_text('Hello World!', encoding='utf-8')
+        git_repo.git.add(conflict_file)
+        git_repo.index.commit('m1')
+
+        git_repo.git.checkout(base_commit)
+        git_repo.create_head('f1')
+        git_repo.git.checkout('f1')
+        conflict_file.write_text('Goodbye World!', encoding='utf-8')
+        git_repo.git.add(conflict_file)
+        git_repo.index.commit('f1')
+
+        git_repo.git.checkout(default_branch)
+        # Should error since there is a conflict
+        with contextlib.suppress(GitCommandError):
+            git_repo.git.merge('f1')
+
+        assert PromptFormatter()('{pygitstatus.operations}') == '{CYAN}|MERGING'
+
+
 def test_repo_path(git_repo):
     with cd(git_repo.working_tree_dir):
         assert PromptFormatter()('{pygitstatus.repo_path}') == '.git'
