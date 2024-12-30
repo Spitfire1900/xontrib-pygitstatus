@@ -132,9 +132,29 @@ def test_branch_color_green(git_repo):
         assert PromptFormatter()('{pygitstatus.branch_color}') == '{BOLD_INTENSE_GREEN}'
 
 
+def test_changed(git_repo):
+    with cd(git_repo.working_tree_dir):
+        # XXX: Testing initial state prevents final state check from working
+        # assert PromptFormatter()('{pygitstatus.changed}') == ''
+        workfile = Path('workfile.txt')
+        workfile.touch()
+        git_repo.git.add(workfile)
+        git_repo.index.commit('initial commit')
+        workfile.write_text('Hello world!', encoding='utf-8')
+        assert PromptFormatter()('{pygitstatus.changed}') == '{BLUE}+1{RESET}'
+
+
 def test_clean(git_repo):
     with cd(git_repo.working_tree_dir):
         assert PromptFormatter()('{pygitstatus.clean}') == '{BOLD_GREEN}✓{RESET}'
+
+
+def test_curr_branch(git_repo):
+    with cd(git_repo.working_tree_dir):
+        # an initial commit is required
+        git_repo.index.commit('initial commit')
+        assert PromptFormatter()(
+            '{pygitstatus_curr_branch}') == f'{git_repo.active_branch.name}'
 
 
 def test_untracked(git_repo):
