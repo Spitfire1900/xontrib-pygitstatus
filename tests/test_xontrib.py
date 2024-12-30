@@ -290,6 +290,15 @@ def test_staged(git_repo):
         git_repo.git.add(workfile)
         assert PromptFormatter()('{pygitstatus.staged}') == '{RED}●1{RESET}'
 
+    # BUG: The following case reports no staged changes
+    #     Changes to be committed:
+    #         new file:   changed_file.txt
+    #         new file:   deleted.txt
+
+    #     Unmerged paths:
+    #     (use "git add <file>..." to mark resolution)
+    #             both added:      conflict_file.txt
+
 
 def test_stash_count(git_repo):
     with cd(git_repo.working_tree_dir):
@@ -355,3 +364,62 @@ def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
         assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
+
+
+def test_gitstatus(git_repo):
+    with cd(git_repo.working_tree_dir):
+        base_commit = git_repo.index.commit('initial commit')
+
+        # Stash
+        workfile = Path('workfile.txt')
+        workfile.touch()
+        git_repo.git.stash('--include-untracked')
+
+        # Set up merge conflict
+        default_branch = git_repo.active_branch.name
+        conflict_file = Path('conflict_file.txt')
+
+        conflict_file.write_text('Hello World!', encoding='utf-8')
+        git_repo.git.add(conflict_file)
+
+        # Add file we will delete later
+        deleted_file = Path('deleted.txt')
+        deleted_file.touch()
+        git_repo.git.add(deleted_file)
+
+        # Add file we will change
+        changed_file = Path('changed_file.txt')
+        changed_file.touch()
+        git_repo.git.add(changed_file)
+
+        git_repo.index.commit('m1')
+
+        git_repo.git.checkout(base_commit)
+        git_repo.create_head('f1')
+        git_repo.git.checkout('f1')
+        conflict_file.write_text('Goodbye World!', encoding='utf-8')
+        git_repo.git.add(conflict_file)
+        git_repo.index.commit('f1')
+
+        # Ahead and behind
+        git_repo.git.branch(f'--set-upstream-to={default_branch}')
+
+        # Should error since there is a conflict
+        with contextlib.suppress(GitCommandError):
+            git_repo.git.merge(default_branch)
+
+        # Changed
+        changed_file.write_text('Changed!', encoding='utf-8')
+
+        # Deleted
+        deleted_file.unlink()
+
+        # Untracked
+        Path('untracked.txt').touch()
+
+        assert PromptFormatter()(
+            '{pygitstatus}'
+        ) == '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'
+        # BUG: This is missing staged
+        # Should be:
+        # '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●3{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'
