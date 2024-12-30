@@ -49,8 +49,6 @@ def prompts(load_xontrib: abc.Callable[[str], None],
 
 
 def test_ahead(git_repo, tmp_path):
-    # origin = Repo.init(tmp_path, bare=True)
-
     with cd(git_repo.working_tree_dir):
         remote: Remote = git_repo.create_remote('origin', tmp_path)
         remote.fetch()
