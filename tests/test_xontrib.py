@@ -1,9 +1,12 @@
+# pylint: disable=missing-function-docstring
+# pylint: disable=missing-module-docstring
+# # pylint: disable=redefined-outer-name
 import contextlib
 import os
 from collections import abc
 from os import PathLike
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 import pytest
 from git import Repo
@@ -12,17 +15,14 @@ from xonsh.environ import Env
 from xonsh.prompt.base import PromptFields, PromptFormatter
 from xonsh.xontribs import xontribs_loaded
 
-if TYPE_CHECKING:
-    from xonsh.environ import Env
-
 # test_gitstatus: https://github.com/xonsh/xonsh/blob/0.12.5/tests/prompt/test_gitstatus.py#L65
 
 
 @pytest.fixture
 def git_repo(tmpdir):
-    Repo.init(tmpdir)
+    repo = Repo.init(tmpdir)
     assert isinstance(tmpdir, PathLike)
-    yield tmpdir
+    yield repo
 
 
 @contextlib.contextmanager
@@ -49,20 +49,19 @@ def prompts(load_xontrib: abc.Callable[[str], None],
 
 
 def test_branch(git_repo):
-    with cd(git_repo):
-        repo = Repo(git_repo).init()
-        repo.index.commit('initial commit')
-        repo.create_head('test_branch')
-        repo.git.checkout('test_branch')
+    with cd(git_repo.working_tree_dir):
+        git_repo.index.commit('initial commit')
+        git_repo.create_head('test_branch')
+        git_repo.git.checkout('test_branch')
         assert PromptFormatter()('{pygitstatus.branch}') == '{CYAN}test_branch'
 
 
 def test_clean(git_repo):
-    with cd(git_repo):
+    with cd(git_repo.working_tree_dir):
         assert PromptFormatter()('{pygitstatus.clean}') == '{BOLD_GREEN}✓{RESET}'
 
 
 def test_untracked(git_repo):
-    with cd(git_repo):
+    with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
         assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
