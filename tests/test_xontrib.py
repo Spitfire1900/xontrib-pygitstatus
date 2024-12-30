@@ -61,6 +61,20 @@ def test_ahead(git_repo, tmp_path):
         assert PromptFormatter()('{pygitstatus.ahead}') == '↑·1'
 
 
+def test_behind(git_repo, tmp_path):
+    with cd(git_repo.working_tree_dir):
+        remote: Remote = git_repo.create_remote('origin', tmp_path)
+        remote.fetch()
+        init_commit = git_repo.index.commit('initial commit')
+        git_repo.index.commit('commit 2')
+        remote_ref = RemoteReference(
+            git_repo, f'refs/remotes/origin/{git_repo.active_branch.name}')
+        git_repo.active_branch.set_tracking_branch(remote_ref)
+        remote.push()
+        git_repo.active_branch.set_commit(init_commit)
+        assert PromptFormatter()('{pygitstatus.behind}') == '↓·1'
+
+
 def test_branch(git_repo):
     with cd(git_repo.working_tree_dir):
         git_repo.index.commit('initial commit')
