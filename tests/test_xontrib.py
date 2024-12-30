@@ -224,6 +224,15 @@ def test_repo_path(git_repo):
         assert PromptFormatter()('{pygitstatus.repo_path}') == '.git'
 
 
+def test_short_head(git_repo):
+    with cd(git_repo.working_tree_dir):
+        git_repo.index.commit('initial commit')
+        # The OOTB default for git is 7,
+        # but this _could_ be affected by a user's core.abbrev setting
+        short_head = git_repo.commit().name_rev[:7]
+        assert PromptFormatter()('{pygitstatus.short_head}') == f':{short_head}'
+
+
 def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
