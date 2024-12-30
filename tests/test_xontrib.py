@@ -6,14 +6,16 @@ import os
 from collections import abc
 from os import PathLike
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pytest
 from git import Remote, RemoteReference, Repo
 from xonsh.built_ins import XonshSession
-from xonsh.environ import Env
 from xonsh.prompt.base import PromptFields, PromptFormatter
 from xonsh.xontribs import xontribs_loaded
+
+if TYPE_CHECKING:
+    from xonsh.environ import Env
 
 # test_gitstatus: https://github.com/xonsh/xonsh/blob/0.12.5/tests/prompt/test_gitstatus.py#L65
 
@@ -81,6 +83,30 @@ def test_branch(git_repo):
         git_repo.create_head('test_branch')
         git_repo.git.checkout('test_branch')
         assert PromptFormatter()('{pygitstatus.branch}') == '{CYAN}test_branch'
+
+
+# HACK this can not run at the same time as other branch_bg_color tests
+@pytest.mark.forked
+def test_branch_bg_color_red(git_repo):
+    with cd(git_repo.working_tree_dir):
+        Path('empty_file.txt').touch()
+        assert PromptFormatter()('{pygitstatus.branch_bg_color}') == '{BACKGROUND_RED}'
+
+
+# HACK this can not run at the same time as other branch_bg_color tests
+@pytest.mark.forked
+def test_branch_bg_color_yellow(tmp_path):
+    with cd(tmp_path):
+        assert PromptFormatter()(
+            '{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
+
+
+# HACK this can not run at the same time as other branch_bg_color tests
+@pytest.mark.forked
+def test_branch_bg_color_green(git_repo):
+    with cd(git_repo.working_tree_dir):
+        assert PromptFormatter()(
+            '{pygitstatus.branch_bg_color}') == '{BACKGROUND_GREEN}'
 
 
 def test_clean(git_repo):
