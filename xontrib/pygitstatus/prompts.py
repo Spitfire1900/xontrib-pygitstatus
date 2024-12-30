@@ -9,6 +9,7 @@ from pygit2 import (GIT_STATUS_CONFLICTED, GIT_STATUS_INDEX_MODIFIED,
                     GIT_STATUS_INDEX_TYPECHANGE, GIT_STATUS_WT_DELETED,
                     GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, Diff, GitError)
 from pygit2 import Repository as Repo
+from pygit2 import enums as pygit2_enums
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 from xonsh.prompt.gitstatus import operations as gitstatus_operations
 
@@ -304,7 +305,7 @@ def tag(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        fld.value = repo.describe()
+        fld.value = repo.describe(describe_strategy=pygit2_enums.DescribeStrategy.TAGS)
 
 
 @PromptField.wrap(name='pygitstatus.tag_or_hash')

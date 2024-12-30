@@ -256,6 +256,20 @@ def test_stash_count(git_repo):
         assert PromptFormatter()('{pygitstatus.stash_count}') == '⚑1'
 
 
+def test_tag_annotated(git_repo):
+    with cd(git_repo.working_tree_dir):
+        git_repo.index.commit('initial commit')
+        git_repo.git.tag('v1 -m v1_message'.split(' '))
+        assert PromptFormatter()('{pygitstatus.tag}') == 'v1'
+
+
+def test_tag_unannotated(git_repo):
+    with cd(git_repo.working_tree_dir):
+        git_repo.index.commit('initial commit')
+        git_repo.git.tag('v1')
+        assert PromptFormatter()('{pygitstatus.tag}') == 'v1'
+
+
 def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
