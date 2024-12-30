@@ -71,6 +71,9 @@ force-exclude = '''
 [tool.isort]
 line_length = 88
 
+[tool.pytest.ini_options]
+addopts = "--forked"
+
 [tool.ruff]
 select = [
     "E",

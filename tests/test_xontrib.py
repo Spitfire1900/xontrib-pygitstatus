@@ -85,48 +85,36 @@ def test_branch(git_repo):
         assert PromptFormatter()('{pygitstatus.branch}') == '{CYAN}test_branch'
 
 
-# HACK this can not run at the same time as other branch_bg_color tests
-@pytest.mark.forked
 def test_branch_bg_color_red(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('empty_file.txt').touch()
         assert PromptFormatter()('{pygitstatus.branch_bg_color}') == '{BACKGROUND_RED}'
 
 
-# HACK this can not run at the same time as other branch_bg_color tests
-@pytest.mark.forked
 def test_branch_bg_color_yellow(tmp_path):
     with cd(tmp_path):
         assert PromptFormatter()(
             '{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
 
 
-# HACK this can not run at the same time as other branch_bg_color tests
-@pytest.mark.forked
 def test_branch_bg_color_green(git_repo):
     with cd(git_repo.working_tree_dir):
         assert PromptFormatter()(
             '{pygitstatus.branch_bg_color}') == '{BACKGROUND_GREEN}'
 
 
-# HACK this can not run at the same time as other branch_branch_color tests
-@pytest.mark.forked
 def test_branch_color_red(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('empty_file.txt').touch()
         assert PromptFormatter()('{pygitstatus.branch_color}') == '{BOLD_INTENSE_RED}'
 
 
-# HACK this can not run at the same time as other branch_branch_color tests
-@pytest.mark.forked
 def test_branch_color_yellow(tmp_path):
     with cd(tmp_path):
         assert PromptFormatter()(
             '{pygitstatus.branch_color}') == '{BOLD_INTENSE_YELLOW}'
 
 
-# HACK this can not run at the same time as other branch_branch_color tests
-@pytest.mark.forked
 def test_branch_color_green(git_repo):
     with cd(git_repo.working_tree_dir):
         assert PromptFormatter()('{pygitstatus.branch_color}') == '{BOLD_INTENSE_GREEN}'
@@ -329,8 +317,6 @@ def test_tag_unannotated(git_repo):
         assert PromptFormatter()('{pygitstatus.tag}') == 'v1'
 
 
-# HACK this can not run at the same time as other tag_or_hash tests
-@pytest.mark.forked
 def test_tag_or_hash_annotated(git_repo):
     with cd(git_repo.working_tree_dir):
         git_repo.index.commit('initial commit')
@@ -338,8 +324,6 @@ def test_tag_or_hash_annotated(git_repo):
         assert PromptFormatter()('{pygitstatus.tag_or_hash}') == 'v1'
 
 
-# HACK this can not run at the same time as other tag_or_hash tests
-@pytest.mark.forked
 def test_tag_or_hash_unannotated(git_repo):
     with cd(git_repo.working_tree_dir):
         git_repo.index.commit('initial commit')
@@ -347,8 +331,6 @@ def test_tag_or_hash_unannotated(git_repo):
         assert PromptFormatter()('{pygitstatus.tag_or_hash}') == 'v1'
 
 
-# HACK this can not run at the same time as other tag_or_hash tests
-@pytest.mark.forked
 def test_tag_or_hash_hash(git_repo):
     '''No tag, so hash should be resolved'''
     with cd(git_repo.working_tree_dir):
