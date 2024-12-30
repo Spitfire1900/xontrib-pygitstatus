@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from git import Repo
+from git import Remote, RemoteReference, Repo
 from xonsh.built_ins import XonshSession
 from xonsh.environ import Env
 from xonsh.prompt.base import PromptFields, PromptFormatter
@@ -46,6 +46,23 @@ def prompts(load_xontrib: abc.Callable[[str], None],
         'PROMPT_FIELDS')  # type: ignore reportAssignmentType
     assert 'pygitstatus' in prompts
     yield prompts
+
+
+def test_ahead(git_repo, tmp_path):
+    # origin = Repo.init(tmp_path, bare=True)
+
+    with cd(git_repo.working_tree_dir):
+        remote: Remote = git_repo.create_remote('origin', tmp_path)
+        remote.fetch()
+        git_repo.index.commit('initial commit')
+        remote.push(git_repo.active_branch)
+        remote_ref = [
+            ref for ref in remote.refs
+            if ref.name.split('/')[-1] == git_repo.active_branch.name
+        ].pop()
+        git_repo.active_branch.set_tracking_branch(remote_ref)
+        git_repo.index.commit('commit 2')
+        assert PromptFormatter()('{pygitstatus.ahead}') == '↑·1'
 
 
 def test_branch(git_repo):
