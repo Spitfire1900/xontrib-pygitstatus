@@ -157,6 +157,16 @@ def test_curr_branch(git_repo):
             '{pygitstatus_curr_branch}') == f'{git_repo.active_branch.name}'
 
 
+def test_deleted(git_repo):
+    with cd(git_repo.working_tree_dir):
+        workfile = Path('workfile.txt')
+        workfile.touch()
+        git_repo.git.add(workfile)
+        git_repo.index.commit('initial commit')
+        workfile.unlink()
+        assert PromptFormatter()('{pygitstatus.deleted}') == '{RED}-1{RESET}'
+
+
 def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
