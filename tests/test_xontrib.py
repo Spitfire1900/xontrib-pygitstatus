@@ -241,6 +241,21 @@ def test_staged(git_repo):
         assert PromptFormatter()('{pygitstatus.staged}') == '{RED}●1{RESET}'
 
 
+def test_stash_count(git_repo):
+    with cd(git_repo.working_tree_dir):
+        git_repo.index.commit('initial commit')
+
+        workfile = Path('workfile.txt')
+        workfile.touch()
+        git_repo.git.stash('--include-untracked')
+        # This also works, but because stash() passes args
+        # blindly '--include-untracked' is more clear, particularly since
+        # '--include-untracked' does not accept arguments so
+        # '--include-untracked=true' will throw an error
+        # git_repo.git.stash(include_untracked=True)
+        assert PromptFormatter()('{pygitstatus.stash_count}') == '⚑1'
+
+
 def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
