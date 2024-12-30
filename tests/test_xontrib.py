@@ -111,7 +111,7 @@ def test_branch_bg_color_green(git_repo):
 
 # HACK this can not run at the same time as other branch_branch_color tests
 @pytest.mark.forked
-def test_branch_branch_color_red(git_repo):
+def test_branch_color_red(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('empty_file.txt').touch()
         assert PromptFormatter()('{pygitstatus.branch_color}') == '{BOLD_INTENSE_RED}'
@@ -119,7 +119,7 @@ def test_branch_branch_color_red(git_repo):
 
 # HACK this can not run at the same time as other branch_branch_color tests
 @pytest.mark.forked
-def test_branch_branch_color_yellow(tmp_path):
+def test_branch_color_yellow(tmp_path):
     with cd(tmp_path):
         assert PromptFormatter()(
             '{pygitstatus.branch_color}') == '{BOLD_INTENSE_YELLOW}'
@@ -127,7 +127,7 @@ def test_branch_branch_color_yellow(tmp_path):
 
 # HACK this can not run at the same time as other branch_branch_color tests
 @pytest.mark.forked
-def test_branch_branch_color_green(git_repo):
+def test_branch_color_green(git_repo):
     with cd(git_repo.working_tree_dir):
         assert PromptFormatter()('{pygitstatus.branch_color}') == '{BOLD_INTENSE_GREEN}'
 
