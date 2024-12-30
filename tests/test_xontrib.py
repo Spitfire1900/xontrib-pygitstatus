@@ -219,6 +219,11 @@ def test_numstat(git_repo):
             '{pygitstatus.numstat}') == f'({insertions}, {deletions})'
 
 
+def test_repo_path(git_repo):
+    with cd(git_repo.working_tree_dir):
+        assert PromptFormatter()('{pygitstatus.repo_path}') == '.git'
+
+
 def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
