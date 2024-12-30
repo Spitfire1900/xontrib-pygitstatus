@@ -313,7 +313,7 @@ def tag_or_hash(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        fld.value = repo.describe()
+        fld.value = repo.describe(describe_strategy=DescribeStrategy.TAGS)
 
     if not fld.value:
         with contextlib.suppress(GitError):
