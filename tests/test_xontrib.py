@@ -53,10 +53,10 @@ def test_ahead(git_repo, tmp_path):
         remote: Remote = git_repo.create_remote('origin', tmp_path)
         remote.fetch()
         git_repo.index.commit('initial commit')
-        remote.push(git_repo.active_branch)
         remote_ref = RemoteReference(
             git_repo, f'refs/remotes/origin/{git_repo.active_branch.name}')
         git_repo.active_branch.set_tracking_branch(remote_ref)
+        remote.push()
         git_repo.index.commit('commit 2')
         assert PromptFormatter()('{pygitstatus.ahead}') == '↑·1'
 
