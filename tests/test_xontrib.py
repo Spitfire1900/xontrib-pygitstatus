@@ -233,6 +233,14 @@ def test_short_head(git_repo):
         assert PromptFormatter()('{pygitstatus.short_head}') == f':{short_head}'
 
 
+def test_staged(git_repo):
+    with cd(git_repo.working_tree_dir):
+        workfile = Path('workfile.txt')
+        workfile.touch()
+        git_repo.git.add(workfile)
+        assert PromptFormatter()('{pygitstatus.staged}') == '{RED}●1{RESET}'
+
+
 def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
