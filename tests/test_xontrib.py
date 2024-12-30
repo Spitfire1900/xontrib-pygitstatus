@@ -270,6 +270,37 @@ def test_tag_unannotated(git_repo):
         assert PromptFormatter()('{pygitstatus.tag}') == 'v1'
 
 
+# HACK this can not run at the same time as other tag_or_hash tests
+@pytest.mark.forked
+def test_tag_or_hash_annotated(git_repo):
+    with cd(git_repo.working_tree_dir):
+        git_repo.index.commit('initial commit')
+        git_repo.git.tag('v1 -m v1_message'.split(' '))
+        assert PromptFormatter()('{pygitstatus.tag_or_hash}') == 'v1'
+
+
+# HACK this can not run at the same time as other tag_or_hash tests
+@pytest.mark.forked
+def test_tag_or_hash_unannotated(git_repo):
+    with cd(git_repo.working_tree_dir):
+        git_repo.index.commit('initial commit')
+        git_repo.git.tag('v1')
+        assert PromptFormatter()('{pygitstatus.tag_or_hash}') == 'v1'
+
+
+# HACK this can not run at the same time as other tag_or_hash tests
+@pytest.mark.forked
+def test_tag_or_hash_hash(git_repo):
+    '''No tag, so hash should be resolved'''
+    with cd(git_repo.working_tree_dir):
+        git_repo.index.commit('initial commit')
+        # The OOTB default for git is 7,
+        # but this _could_ be affected by a user's core.abbrev setting
+        short_head = git_repo.commit().name_rev[:7]
+
+        assert PromptFormatter()('{pygitstatus.tag_or_hash}') == short_head
+
+
 def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
