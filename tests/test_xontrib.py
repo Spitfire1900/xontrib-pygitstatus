@@ -195,6 +195,30 @@ def test_lines_deleted(git_repo):
             '{pygitstatus.lines_deleted}') == f'{{INTENSE_RED}}-{lines}{{RESET}}'
 
 
+def test_numstat(git_repo):
+    with cd(git_repo.working_tree_dir):
+        insertions_workfile = Path('insertions.txt')
+        deletions_workfile = Path('deletions.txt')
+        insertions = 2
+        deletions = 3
+
+        insertions_workfile.touch()
+        deletions_workfile.write_text(
+            os.linesep.join({str(i)
+                             for i in range(1, deletions + 1)}), encoding='utf-8')
+
+        git_repo.git.add(insertions_workfile, deletions_workfile)
+        git_repo.index.commit('initial commit')
+
+        insertions_workfile.write_text(
+            os.linesep.join({str(i)
+                             for i in range(1, insertions + 1)}), encoding='utf-8')
+        deletions_workfile.write_text('', encoding='utf-8')
+
+        assert PromptFormatter()(
+            '{pygitstatus.numstat}') == f'({insertions}, {deletions})'
+
+
 def test_untracked(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('text.txt').touch()
