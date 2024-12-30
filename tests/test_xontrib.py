@@ -19,9 +19,9 @@ from xonsh.xontribs import xontribs_loaded
 
 
 @pytest.fixture
-def git_repo(tmpdir):
-    repo = Repo.init(tmpdir)
-    assert isinstance(tmpdir, PathLike)
+def git_repo(tmp_path):
+    repo = Repo.init(tmp_path)
+    assert isinstance(tmp_path, PathLike)
     yield repo
 
 
