@@ -10,7 +10,7 @@ name: Upload Python Package to TestPyPI
 
 on:
   release:
-    types: [created, prereleased]
+    types: [prereleased]
 
 permissions:
   contents: read
