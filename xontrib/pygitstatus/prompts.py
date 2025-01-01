@@ -164,6 +164,10 @@ def changed(fld: PromptField, ctx: PromptFields):
     name='pygitstatus.conflicts',
 )
 def conflicts(fld: PromptField, ctx: PromptFields):
+    # NOTE: gitstatus does not include conflicted files when both are added
+    #       to the index and the working tree
+    #       pygitstatus will though
+    #       This is an intentional difference
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
