@@ -399,8 +399,9 @@ def test_gitstatus(git_repo):
         # Untracked
         Path('untracked.txt').touch()
 
-        print('> git status')
-        print(git_repo.git.status())
+        print('> git status && echo ... && git status --porcelain')
+        print(git_repo.git.status() + '...' + os.linesep +
+              git_repo.git.status('--porcelain'))
         # NOTE: gitstatus does not include conflicted files when both are added
         #       to the index and the working tree
         # assert PromptFormatter()('{pygitstatus}') == PromptFormatter()('{gitstatus}')
