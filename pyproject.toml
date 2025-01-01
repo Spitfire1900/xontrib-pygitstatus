@@ -2,7 +2,7 @@
 name = "xontrib-pygitstatus"
 version = "0.1.0"
 authors = [{ name = "Kyle Gottfried", email = "Kyle.Gottfried@outlook.com" }]
-description = "PyGit implementation of gitstatus PROMPT"
+description = "PyGit implementation of xonsh's builtin gitstatus PROMPT"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
 classifiers = [
