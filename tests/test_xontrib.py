@@ -401,7 +401,17 @@ def test_gitstatus(git_repo):
 
         print('> git status')
         print(git_repo.git.status())
-        # BUG?: gitstatus does not include conflicted files
+        # NOTE: gitstatus does not include conflicted files when both are added
+        #       to the index and the working tree
         # assert PromptFormatter()('{pygitstatus}') == PromptFormatter()('{gitstatus}')
+        # This comes from git status --porcelain
+        # @ git status --porcelain
+        # AM changed_file.txt
+        # AA conflict_file.txt
+        # AD deleted.txt
+        # ?? untracked.txt
+        # ----
+        # Since conflict_file.txt is added in both the index and the working tree,
+        # pygitstatus intentionally differs from gitstatus in this case
         expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●3{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'
         assert PromptFormatter()('{pygitstatus}') == expected
