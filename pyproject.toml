@@ -5,7 +5,7 @@ license = { file = "LICENSE" }
 description = "PyGit implementation of gitstatus PROMPT"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: LGPL-3.0 License",
     "Operating System :: OS Independent",
     "Topic :: System :: Shells",
     "Topic :: System :: System Shells",
