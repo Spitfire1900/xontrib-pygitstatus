@@ -3,16 +3,13 @@
 # # pylint: disable=redefined-outer-name
 import contextlib
 import os
-from collections import abc
 from os import PathLike
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import pytest
 from git import GitCommandError, Remote, RemoteReference, Repo
-from xonsh.built_ins import XonshSession
-from xonsh.prompt.base import PromptFields, PromptFormatter
-from xonsh.xontribs import xontribs_loaded
+from xonsh.prompt.base import PromptFormatter
 
 if TYPE_CHECKING:
     from xonsh.environ import Env
@@ -32,27 +29,6 @@ def xsh():
 
 
 @pytest.fixture
-def format_prompt(xsh, tmpdir):
-
-    def factory(prompt: str):
-        xsh.env["PROMPT"] = prompt
-
-        formatter = PromptFormatter()
-        fields = xsh.env["PROMPT_FIELDS"]
-        fields.update(
-            dict(
-                env_name="venv1",  # fg=INTENSE_WHITE, bg=009B77
-                user="user1",
-                hostname="bot",
-                # pygitstatus="gitstatus",
-                # cwd="/home/tst",
-            ))
-        return formatter(prompt)
-
-    return factory
-
-
-@pytest.fixture
 def git_repo(tmp_path):
     repo = Repo.init(tmp_path)
     assert isinstance(tmp_path, PathLike)
@@ -68,18 +44,6 @@ def cd(path: PathLike):
         yield
     finally:
         os.chdir(old_dir)
-
-
-@pytest.fixture(scope="function", autouse=False)
-def prompts(load_xontrib: abc.Callable[[str], None],
-            xonsh_session: XonshSession) -> abc.Generator[PromptFields, Any, Any]:
-    load_xontrib('pygitstatus')
-    assert 'pygitstatus' in xontribs_loaded()
-    xonsh_env: Env = xonsh_session.env  # type: ignore reportAssignmentType
-    prompts: PromptFields = xonsh_env.get(
-        'PROMPT_FIELDS')  # type: ignore reportAssignmentType
-    assert 'pygitstatus' in prompts
-    yield prompts
 
 
 def test_ahead(git_repo, tmp_path):
@@ -117,7 +81,7 @@ def test_branch(git_repo):
         assert PromptFormatter()('{pygitstatus.branch}') == '{CYAN}test_branch'
 
 
-def test_branch_bg_color_red(git_repo, prompts):
+def test_branch_bg_color_red(git_repo):
     with cd(git_repo.working_tree_dir):
         Path('empty_file.txt').touch()
         assert PromptFormatter()('{pygitstatus.branch_bg_color}') == '{BACKGROUND_RED}'
