@@ -38,7 +38,7 @@ def cd(path: PathLike):
         os.chdir(old_dir)
 
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="function", autouse=False)
 def prompts(load_xontrib: abc.Callable[[str], None],
             xonsh_session: XonshSession) -> abc.Generator[PromptFields, Any, Any]:
     load_xontrib('pygitstatus')
@@ -85,7 +85,7 @@ def test_branch(git_repo):
         assert PromptFormatter()('{pygitstatus.branch}') == '{CYAN}test_branch'
 
 
-def test_branch_bg_color_red(git_repo):
+def test_branch_bg_color_red(git_repo, prompts):
     with cd(git_repo.working_tree_dir):
         Path('empty_file.txt').touch()
         assert PromptFormatter()('{pygitstatus.branch_bg_color}') == '{BACKGROUND_RED}'
@@ -99,6 +99,7 @@ def test_branch_bg_color_yellow(tmp_path):
         # I think I can only as PromptFormatter for any given prompt once,
         # the first result is cached.
         # As long as I ask for a different prompt, it will be evaluated,
+        # Look at https://github.com/jnoortheen/xontrib-powerline3/blob/910b09de05182467599e5b785d63222eaeeae9c9/tests/test_processor.py#L24-L26
         assert PromptFormatter()(
             '{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
 
