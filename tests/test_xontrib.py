@@ -20,6 +20,38 @@ if TYPE_CHECKING:
 # test_gitstatus: https://github.com/xonsh/xonsh/blob/0.12.5/tests/prompt/test_gitstatus.py#L65
 
 
+@pytest.fixture(scope="function", autouse=True)
+def xsh():
+    from xonsh.built_ins import XSH
+
+    XSH.load()
+    from xontrib.pygitstatus.entrypoint import _load_xontrib_
+    _load_xontrib_(XSH)
+    yield XSH
+    XSH.unload()
+
+
+@pytest.fixture
+def format_prompt(xsh, tmpdir):
+
+    def factory(prompt: str):
+        xsh.env["PROMPT"] = prompt
+
+        formatter = PromptFormatter()
+        fields = xsh.env["PROMPT_FIELDS"]
+        fields.update(
+            dict(
+                env_name="venv1",  # fg=INTENSE_WHITE, bg=009B77
+                user="user1",
+                hostname="bot",
+                # pygitstatus="gitstatus",
+                # cwd="/home/tst",
+            ))
+        return formatter(prompt)
+
+    return factory
+
+
 @pytest.fixture
 def git_repo(tmp_path):
     repo = Repo.init(tmp_path)
