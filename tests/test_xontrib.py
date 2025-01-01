@@ -251,8 +251,11 @@ def test_operations(git_repo):
 
         git_repo.git.checkout(default_branch)
         # Should error since there is a conflict
-        with contextlib.suppress(GitCommandError):
+        try:
             git_repo.git.merge('f1')
+        except GitCommandError as err:
+            if 'CONFLICT' not in err.stdout:
+                raise err from err
 
         assert PromptFormatter()('{pygitstatus.operations}') == '{CYAN}|MERGING'
 
@@ -387,8 +390,11 @@ def test_gitstatus(git_repo):
         git_repo.git.branch(f'--set-upstream-to={default_branch}')
 
         # Should error since there is a conflict
-        with contextlib.suppress(GitCommandError):
+        try:
             git_repo.git.merge(default_branch)
+        except GitCommandError as err:
+            if 'CONFLICT' not in err.stdout:
+                raise err from err
 
         # Changed
         changed_file.write_text('Changed!', encoding='utf-8')
