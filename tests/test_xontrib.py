@@ -100,6 +100,8 @@ def test_branch_bg_color_yellow(tmp_path):
         # the first result is cached.
         # As long as I ask for a different prompt, it will be evaluated,
         # Look at https://github.com/jnoortheen/xontrib-powerline3/blob/910b09de05182467599e5b785d63222eaeeae9c9/tests/test_processor.py#L24-L26
+        # Try setting up the "PROMPT" environment variable
+        # instead of calling PromptFormatter() with the prompt.
         assert PromptFormatter()(
             '{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
 
