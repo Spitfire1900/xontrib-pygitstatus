@@ -117,8 +117,6 @@ def test_branch_color_green(git_repo):
 
 def test_changed(git_repo):
     with cd(git_repo.working_tree_dir):
-
-        # assert PromptFormatter()('{pygitstatus.changed}') == ''
         workfile = Path('workfile.txt')
         workfile.touch()
         git_repo.git.add(workfile)
