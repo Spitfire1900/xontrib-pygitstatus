@@ -171,8 +171,6 @@ def conflicts(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        conflicted_count = len(
-            [v for k, v in repo.status().items() if v == FileStatus.CONFLICTED])
         conflicted_count = len([
             file_status for file_status in repo.status().values()
             if FileStatus.CONFLICTED & file_status
