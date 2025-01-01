@@ -25,6 +25,13 @@ $XONTRIBS_AUTOLOAD_DISABLED = ["pygitstatus", ]
 # if you have set this for other xontribs, you should append the vale
 ```
 
+## Differences from gitstatus
+
+PyGitStatus is a fork of [gitstatus](https://github.com/xonsh/xonsh/blob/0.12.5/xonsh/prompt/gitstatus.py) that nearly follows the same logic as the original gitstatus prompt, but with a few differences:
+
+-   Conflict files are intentionally excluded from pygitstatus.staged.
+-   The pygitstatus prompt will include conflicted files when both are added to the index and the working tree.
+
 ## Examples
 
 ...
