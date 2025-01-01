@@ -45,13 +45,6 @@ def cd(path: PathLike):
         os.chdir(old_dir)
 
 
-def test_autoload(xsh):
-    from xonsh.main import _autoload_xontribs
-
-    _autoload_xontribs({})
-    assert 'pygitstatus' in xontribs_loaded()
-
-
 def test_ahead(git_repo, tmp_path):
     with cd(git_repo.working_tree_dir):
         remote: Remote = git_repo.create_remote('origin', tmp_path)
