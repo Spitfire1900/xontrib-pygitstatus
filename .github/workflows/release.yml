@@ -42,7 +42,7 @@ jobs:
           name: python-package-distributions
           path: dist/
   publish-to-testpypi:
-    name: Publish Python 🐍 distribution 📦 to TestPyPI
+    name: Publish Python 🐍 distribution 📦 to PyPI
     needs:
       - build
     runs-on: ubuntu-latest
