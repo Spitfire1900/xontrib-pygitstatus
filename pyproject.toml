@@ -23,10 +23,10 @@ content-type = "text/markdown"
 "pygitstatus" = "xontrib.pygitstatus.entrypoint"
 
 [project.urls]
-Homepage = "https://github.com//xontrib-pygitstatus"
-Documentation = "https://github.com//xontrib-pygitstatus/blob/master/README.md"
-Code = "https://github.com//xontrib-pygitstatus"
-"Issue tracker" = "https://github.com//xontrib-pygitstatus/issues"
+Homepage = "https://github.com/Spitfire1900/xontrib-pygitstatus"
+Documentation = "https://github.com/Spitfire1900/xontrib-pygitstatus/blob/main/README.md"
+Code = "https://github.com/Spitfire1900/xontrib-pygitstatus"
+"Issue tracker" = "https://github.com/Spitfire1900/xontrib-pygitstatus/issues"
 
 [project.optional-dependencies]
 dev = ["build>=1.2.2", "pytest>=7.0", "gitpython>=3.1.43"]
