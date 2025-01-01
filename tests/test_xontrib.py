@@ -398,6 +398,10 @@ def test_gitstatus(git_repo):
 
         # Untracked
         Path('untracked.txt').touch()
-        expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●3{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'
 
+        print('> git status')
+        print(git_repo.git.status())
+        # BUG?: gitstatus does not inlcude deleted files
+        # assert PromptFormatter()('{pygitstatus}') == PromptFormatter()('{gitstatus}')
+        expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●3{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'
         assert PromptFormatter()('{pygitstatus}') == expected

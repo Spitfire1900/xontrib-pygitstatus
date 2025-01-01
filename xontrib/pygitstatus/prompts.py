@@ -331,7 +331,7 @@ def untracked(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
         untracked_count = len([
             file_status for file_status in repo.status().values()
-            if file_status == FileStatus.WT_NEW
+            if FileStatus.WT_NEW & file_status
         ])
         if untracked_count > 0:
             fld.value = str(untracked_count)
