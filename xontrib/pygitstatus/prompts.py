@@ -150,11 +150,8 @@ def changed(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
 
-        for _, v in repo.status().items():
-            statuses = _git_status_list(v)
-            # We don't care about the index
-            is_true = FileStatus.WT_MODIFIED in statuses
-            if is_true:
+        for file_status in repo.status().values():
+            if FileStatus.WT_MODIFIED & file_status:
                 count = count + 1
         if count > 0:
             fld.value = str(count)
@@ -207,11 +204,8 @@ def deleted(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
 
-        for _, v in repo.status().items():
-            statuses = _git_status_list(v)
-            # We don't care about the index.
-            is_true = FileStatus.WT_DELETED in statuses
-            if is_true:
+        for file_status in repo.status().values():
+            if FileStatus.WT_DELETED & file_status:
                 count = count + 1
         if count > 0:
             fld.value = str(count)
@@ -286,12 +280,13 @@ def staged(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
         untracked_count = len([
-            v for k, v in repo.status().items() if v in [
-                FileStatus.INDEX_MODIFIED,
-                FileStatus.INDEX_NEW,
-                FileStatus.INDEX_RENAMED,
-                FileStatus.INDEX_TYPECHANGE,
-            ]
+            file_status for file_status in repo.status().values() if any([
+                FileStatus.INDEX_MODIFIED & file_status,
+                FileStatus.INDEX_NEW & file_status,
+                FileStatus.INDEX_RENAMED & file_status,
+                FileStatus.INDEX_TYPECHANGE & file_status,
+                FileStatus.CONFLICTED & file_status,
+            ])
         ])
         if untracked_count > 0:
             fld.value = str(untracked_count)
@@ -334,8 +329,10 @@ def untracked(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        untracked_count = len(
-            [v for k, v in repo.status().items() if v == FileStatus.WT_NEW])
+        untracked_count = len([
+            file_status for file_status in repo.status().values()
+            if file_status == FileStatus.WT_NEW
+        ])
         if untracked_count > 0:
             fld.value = str(untracked_count)
 
