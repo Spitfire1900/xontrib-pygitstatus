@@ -3,15 +3,13 @@ import os
 from typing import List, Optional
 
 import pygit2
-# pylint: disable=no-name-in-module
-from pygit2 import (GIT_STATUS_CONFLICTED, GIT_STATUS_INDEX_MODIFIED,
-                    GIT_STATUS_INDEX_NEW, GIT_STATUS_INDEX_RENAMED,
-                    GIT_STATUS_INDEX_TYPECHANGE, GIT_STATUS_WT_DELETED,
-                    GIT_STATUS_WT_MODIFIED, GIT_STATUS_WT_NEW, Commit, Diff, GitError)
+from pygit2 import Commit, Diff, GitError
 from pygit2 import Repository as Repo
-from pygit2.enums import DescribeStrategy
+from pygit2.enums import DescribeStrategy, FileStatus
 from xonsh.prompt.base import MultiPromptField, PromptField, PromptFields
 from xonsh.prompt.gitstatus import operations as gitstatus_operations
+
+# pylint: disable=no-name-in-module
 
 ### .venv/Lib/site-packages/xonsh/prompt/gitstatus.py
 
@@ -62,17 +60,17 @@ def __git_status_list(file_status: int) -> List[int]:
 
     # pylint: disable=no-member
     for status_int in [
-            pygit2.GIT_STATUS_WT_UNREADABLE,  # 4096
-            pygit2.GIT_STATUS_WT_RENAMED,  # 2048
-            pygit2.GIT_STATUS_WT_TYPECHANGE,  # 1024
-            pygit2.GIT_STATUS_WT_DELETED,  # 512
-            pygit2.GIT_STATUS_WT_MODIFIED,  # 256
-            pygit2.GIT_STATUS_WT_NEW,  # 128
-            pygit2.GIT_STATUS_INDEX_TYPECHANGE,  # 16
-            pygit2.GIT_STATUS_INDEX_RENAMED,  # 8
-            pygit2.GIT_STATUS_INDEX_DELETED,  # 4
-            pygit2.GIT_STATUS_INDEX_MODIFIED,  # 2
-            pygit2.GIT_STATUS_INDEX_NEW,  # 1
+            FileStatus.WT_UNREADABLE,  # 4096
+            FileStatus.WT_RENAMED,  # 2048
+            FileStatus.WT_TYPECHANGE,  # 1024
+            FileStatus.WT_DELETED,  # 512
+            FileStatus.WT_MODIFIED,  # 256
+            FileStatus.WT_NEW,  # 128
+            FileStatus.INDEX_TYPECHANGE,  # 16
+            FileStatus.INDEX_RENAMED,  # 8
+            FileStatus.INDEX_DELETED,  # 4
+            FileStatus.INDEX_MODIFIED,  # 2
+            FileStatus.INDEX_NEW,  # 1
     ]:
         if _file_status_worker == 0:
             break
@@ -151,7 +149,7 @@ def changed(fld: PromptField, ctx: PromptFields):
         for k, v in repo.status().items():
             statuses = __git_status_list(v)
             # We don't care about the index
-            is_true = GIT_STATUS_WT_MODIFIED in statuses
+            is_true = FileStatus.WT_MODIFIED in statuses
             if is_true:
                 count = count + 1
         if count > 0:
@@ -165,7 +163,7 @@ def conflicts(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
         conflicted_count = len(
-            [v for k, v in repo.status().items() if v == GIT_STATUS_CONFLICTED])
+            [v for k, v in repo.status().items() if v == FileStatus.CONFLICTED])
         if conflicted_count > 0:
             fld.value = str(conflicted_count)
 
@@ -204,7 +202,7 @@ def deleted(fld: PromptField, ctx: PromptFields):
         for k, v in repo.status().items():
             statuses = __git_status_list(v)
             # We don't care about the index.
-            is_true = GIT_STATUS_WT_DELETED in statuses
+            is_true = FileStatus.WT_DELETED in statuses
             if is_true:
                 count = count + 1
         if count > 0:
@@ -281,10 +279,10 @@ def staged(fld: PromptField, ctx: PromptFields):
         repo = Repo('.')
         untracked_count = len([
             v for k, v in repo.status().items() if v in [
-                GIT_STATUS_INDEX_MODIFIED,
-                GIT_STATUS_INDEX_NEW,
-                GIT_STATUS_INDEX_RENAMED,
-                GIT_STATUS_INDEX_TYPECHANGE,
+                FileStatus.INDEX_MODIFIED,
+                FileStatus.INDEX_NEW,
+                FileStatus.INDEX_RENAMED,
+                FileStatus.INDEX_TYPECHANGE,
             ]
         ])
         if untracked_count > 0:
@@ -329,7 +327,7 @@ def untracked(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
         untracked_count = len(
-            [v for k, v in repo.status().items() if v == GIT_STATUS_WT_NEW])
+            [v for k, v in repo.status().items() if v == FileStatus.WT_NEW])
         if untracked_count > 0:
             fld.value = str(untracked_count)
 
