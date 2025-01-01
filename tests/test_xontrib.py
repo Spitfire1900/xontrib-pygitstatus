@@ -345,7 +345,7 @@ def test_untracked(git_repo):
         assert PromptFormatter()('{pygitstatus.untracked}') == '…1'
 
 
-def test_gitstatus(git_repo):
+def test_pygitstatus(git_repo):
     with cd(git_repo.working_tree_dir):
         base_commit = git_repo.index.commit('initial commit')
 

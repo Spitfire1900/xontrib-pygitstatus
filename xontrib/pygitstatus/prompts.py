@@ -274,7 +274,7 @@ def untracked(fld: PromptField, ctx: PromptFields):
             fld.value = str(untracked_count)
 
 
-class GitStatus(MultiPromptField):
+class PyGitStatus(MultiPromptField):
     """Return str `BRANCH|OPERATOR|numbers`"""
 
     # NOTE: gitstatus does not include conflicted files when both are added
@@ -321,4 +321,4 @@ class GitStatus(MultiPromptField):
             yield frag
 
 
-gitstatus = GitStatus()
+pygitstatus = PyGitStatus()

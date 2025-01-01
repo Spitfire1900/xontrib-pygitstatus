@@ -3,9 +3,9 @@ from collections.abc import MutableMapping
 from xonsh.built_ins import XonshSession
 
 from .prompts import (ahead, behind, branch, branch_bg_color, branch_color, changed,
-                      clean, conflicts, curr_branch, deleted, gitstatus, lines_added,
-                      lines_deleted, numstat, operations, repo_path, short_head, staged,
-                      stash_count, tag, tag_or_hash, untracked)
+                      clean, conflicts, curr_branch, deleted, lines_added,
+                      lines_deleted, numstat, operations, pygitstatus, repo_path,
+                      short_head, staged, stash_count, tag, tag_or_hash, untracked)
 
 
 def _load_xontrib_(xsh: XonshSession, **_) -> dict:
@@ -28,7 +28,7 @@ def _load_xontrib_(xsh: XonshSession, **_) -> dict:
 
     prompt_fields: MutableMapping
     prompt_fields = xsh.env.get('PROMPT_FIELDS')  # type: ignore
-    prompt_fields['pygitstatus'] = gitstatus
+    prompt_fields['pygitstatus'] = pygitstatus
     prompt_fields['pygitstatus_curr_branch'] = curr_branch
     prompt_fields['pygitstatus.ahead'] = ahead
     prompt_fields['pygitstatus.behind'] = behind
