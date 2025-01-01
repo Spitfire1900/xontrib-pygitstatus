@@ -45,24 +45,6 @@ include-package-data = false
 
 [tool.setuptools.package-data]
 
-[tool.black]
-include = '\.pyi?$'
-force-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.pytest_cache
-  | \.tox
-  | \.vscode
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | disk-cache.sqlite3
-)/
-'''
 
 [tool.isort]
 line_length = 88
