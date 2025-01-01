@@ -60,7 +60,7 @@ select = [
     "I",   # isort
     "UP",  # pyupgrade
     "SIM", # simplify
-    "TCH", # flake8-type-checking
+    "TC",  # flake8-type-checking
     "RUF", # ruff specific rules
 
 ]
