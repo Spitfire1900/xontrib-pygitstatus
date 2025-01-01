@@ -12,78 +12,6 @@ from xonsh.prompt.gitstatus import operations as gitstatus_operations
 ### .venv/Lib/site-packages/xonsh/prompt/gitstatus.py
 
 
-def _git_status_list(file_status: int) -> list[int]:
-    """
-    """
-    # pylint: disable=pointless-string-statement,line-too-long
-    """
-    FileStatus.CONFLICTED,  # 32768
-    FileStatus.IGNORED,  # 16384
-    FileStatus.WT_UNREADABLE,  # 4096
-    FileStatus.WT_RENAMED,  # 2048
-    FileStatus.WT_TYPECHANGE,  # 1024
-    FileStatus.WT_DELETED,  # 512
-    FileStatus.WT_MODIFIED,  # 256
-    FileStatus.WT_NEW,  # 128
-    FileStatus.INDEX_TYPECHANGE,  # 16
-    FileStatus.INDEX_RENAMED,  # 8
-    FileStatus.INDEX_DELETED,  # 4
-    FileStatus.INDEX_MODIFIED,  # 2
-    FileStatus.INDEX_NEW,  # 1
-
-    TODO: Switch to bitwise operations, FileStatus already uses IntFlag
-    IDEA: enum.FLAG may be useful: https://youtu.be/TAMbq0iRUsA?t=249
-    @ [print("{:>013b} is the binary representation of {:>2}".format(i,i)) for i in [32768, 16384, 4096, 2048, 1024, 512, 256, 128, 16, 8, 4, 2, 1]]
-        1000000000000000 is the binary representation of 32768
-        100000000000000 is the binary representation of 16384
-        1000000000000 is the binary representation of 4096
-        0100000000000 is the binary representation of 2048
-        0010000000000 is the binary representation of 1024
-        0001000000000 is the binary representation of 512
-        0000100000000 is the binary representation of 256
-        0000010000000 is the binary representation of 128
-        0000000010000 is the binary representation of 16
-        0000000001000 is the binary representation of  8
-        0000000000100 is the binary representation of  4
-        0000000000010 is the binary representation of  2
-        0000000000001 is the binary representation of  1
-    @ print("{:>013b}".format(258)); print("{:>013b}".format(256))
-        0000100000010
-        0000100000000
-    @ 256 ^ 258
-        2
-    @ 528 ^ 16 in [4096, 2048, 1024, 512, 256, 128, 16, 8, 4, 2, 1]
-        True
-        # This has GIT_STATUS_INDEX_TYPECHANGE status
-    """  # noqa: E501
-
-    statuses = []
-    _file_status_worker = file_status
-
-    # pylint: disable=no-member
-    for status_int in [
-            FileStatus.CONFLICTED,  # 32768
-            FileStatus.IGNORED,  # 16384
-            FileStatus.WT_UNREADABLE,  # 4096
-            FileStatus.WT_RENAMED,  # 2048
-            FileStatus.WT_TYPECHANGE,  # 1024
-            FileStatus.WT_DELETED,  # 512
-            FileStatus.WT_MODIFIED,  # 256
-            FileStatus.WT_NEW,  # 128
-            FileStatus.INDEX_TYPECHANGE,  # 16
-            FileStatus.INDEX_RENAMED,  # 8
-            FileStatus.INDEX_DELETED,  # 4
-            FileStatus.INDEX_MODIFIED,  # 2
-            FileStatus.INDEX_NEW,  # 1
-    ]:
-        if _file_status_worker == 0:  # FileStatus.CURRENT
-            break
-        if _file_status_worker - status_int >= 0:
-            statuses.append(status_int)
-            _file_status_worker = _file_status_worker % status_int
-    return statuses
-
-
 @PromptField.wrap(prefix='↑·', info='ahead', name='pygitstatus.ahead')
 def ahead(fld: PromptField, ctx: PromptFields):
     fld.value = ''
@@ -348,6 +276,20 @@ def untracked(fld: PromptField, ctx: PromptFields):
 
 class GitStatus(MultiPromptField):
     """Return str `BRANCH|OPERATOR|numbers`"""
+
+    # NOTE: gitstatus does not include conflicted files when both are added
+    #       to the index and the working tree
+    # assert PromptFormatter()('{pygitstatus}') == PromptFormatter()('{gitstatus}')
+    # This comes from git status --porcelain
+    # @ git status --porcelain
+    # AM changed_file.txt
+    # AA conflict_file.txt
+    # AD deleted.txt
+    # ?? untracked.txt
+    # ----
+    # Since conflict_file.txt is added in both the index and the working tree,
+    # pygitstatus intentionally differs from gitstatus in this case
+    # pygitstatus also intentionally excludes conflicted files from the staged count
 
     _name = 'pygitstatus'
     fragments = (
