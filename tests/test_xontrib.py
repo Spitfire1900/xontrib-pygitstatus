@@ -95,13 +95,17 @@ def test_branch_bg_color_yellow(tmp_path):
     with cd(tmp_path):
         # BUG: can not run at the same time as test_branch_bg_color_red
         # without `--forked` being passed to pytest.,
-        # Verified that it is not ran twice
+        # Verified that it is not ran twice.
+        # I think I can only as PromptFormatter for any given prompt once,
+        # the first result is cached.
+        # As long as I ask for a different prompt, it will be evaluated,
         assert PromptFormatter()(
             '{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
 
 
 def test_branch_bg_color_green(git_repo):
     with cd(git_repo.working_tree_dir):
+        print(f'{git_repo.git.status()=}')
         assert PromptFormatter()(
             '{pygitstatus.branch_bg_color}') == '{BACKGROUND_GREEN}'
 
