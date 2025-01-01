@@ -3,7 +3,7 @@ from xonsh.xontribs import xontribs_loaded
 
 
 @pytest.fixture(scope="function", autouse=True)
-def xsh():
+def xsh_without_pygitstatus():
     from xonsh.built_ins import XSH
 
     XSH.load()
