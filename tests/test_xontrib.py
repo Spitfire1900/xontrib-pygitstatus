@@ -26,6 +26,8 @@ def xsh():
     _load_xontrib_(XSH)
     yield XSH
     XSH.unload()
+    # NOTE: Testing initial state prevents final state check from evaluating,
+    #       so you may only call PromptFormatter() once per test.
 
 
 @pytest.fixture
@@ -89,16 +91,6 @@ def test_branch_bg_color_red(git_repo):
 
 def test_branch_bg_color_yellow(tmp_path):
     with cd(tmp_path):
-        # BUG: can not run at the same time as test_branch_bg_color_red
-        # without `--forked` being passed to pytest.,
-        # Verified that it is not ran twice.
-        # I think I can only as PromptFormatter for any given prompt once,
-        # the first result is cached.
-        # As long as I ask for a different prompt, it will be evaluated,
-        # Look at https://github.com/jnoortheen/xontrib-powerline3/blob/910b09de05182467599e5b785d63222eaeeae9c9/tests/test_processor.py#L24-L26
-        # Try setting up the "PROMPT" environment variable
-        # instead of calling PromptFormatter() with the prompt.
-        # Attempt to follow the above link reproduced the issue.
         assert PromptFormatter()(
             '{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
 
@@ -129,7 +121,7 @@ def test_branch_color_green(git_repo):
 
 def test_changed(git_repo):
     with cd(git_repo.working_tree_dir):
-        # XXX: Testing initial state prevents final state check from working
+
         # assert PromptFormatter()('{pygitstatus.changed}') == ''
         workfile = Path('workfile.txt')
         workfile.touch()
