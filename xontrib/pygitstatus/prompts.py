@@ -58,6 +58,8 @@ def __git_status_list(file_status: int) -> list[int]:
 
     # pylint: disable=no-member
     for status_int in [
+            FileStatus.CONFLICTED,  # 32768
+            FileStatus.IGNORED,  # 16384
             FileStatus.WT_UNREADABLE,  # 4096
             FileStatus.WT_RENAMED,  # 2048
             FileStatus.WT_TYPECHANGE,  # 1024
@@ -70,7 +72,7 @@ def __git_status_list(file_status: int) -> list[int]:
             FileStatus.INDEX_MODIFIED,  # 2
             FileStatus.INDEX_NEW,  # 1
     ]:
-        if _file_status_worker == 0:
+        if _file_status_worker == 0:  # FileStatus.CURRENT
             break
         if _file_status_worker - status_int >= 0:
             statuses.append(status_int)
