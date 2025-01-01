@@ -79,14 +79,6 @@ PyGitStatus is a fork of [gitstatus](https://github.com/xonsh/xonsh/blob/0.12.5/
 
 While this xontrib works on Windows, the tests do not pass on Windows.
 
-## Development
-
-## Releasing your package
-
--   Bump the version of your package.
--   Create a GitHub release (The release notes are automatically generated as a draft release after each push).
--   And publish with `poetry publish --build` or `twine`
-
 ## Credits
 
 This package was created with [xontrib template](https://github.com/xonsh/xontrib-template).
