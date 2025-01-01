@@ -93,6 +93,9 @@ def test_branch_bg_color_red(git_repo):
 
 def test_branch_bg_color_yellow(tmp_path):
     with cd(tmp_path):
+        # BUG: can not run at the same time as test_branch_bg_color_red
+        # without `--forked` being passed to pytest.,
+        # Verified that it is not ran twice
         assert PromptFormatter()(
             '{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
 
