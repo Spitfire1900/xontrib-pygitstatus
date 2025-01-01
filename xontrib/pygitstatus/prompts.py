@@ -34,6 +34,7 @@ def __git_status_list(file_status: int) -> List[int]:
     GIT_STATUS_INDEX_NEW: 1
 
     TODO: Switch to bitwise operations
+    IDEA: enum.FLAG may be useful: https://youtu.be/TAMbq0iRUsA?t=249
     @ [print("{:>013b} is the binary representation of {:>2}".format(i,i)) for i in [4096, 2048, 1024, 512, 256, 128, 16, 8, 4, 2, 1]]
         1000000000000 is the binary representation of 4096
         0100000000000 is the binary representation of 2048
