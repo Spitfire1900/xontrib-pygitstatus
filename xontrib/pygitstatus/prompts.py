@@ -1,6 +1,5 @@
 import contextlib
 import os
-from typing import List, Optional
 
 from pygit2 import Commit, Diff, GitError
 from pygit2.enums import DescribeStrategy, FileStatus
@@ -13,7 +12,7 @@ from xonsh.prompt.gitstatus import operations as gitstatus_operations
 ### .venv/Lib/site-packages/xonsh/prompt/gitstatus.py
 
 
-def __git_status_list(file_status: int) -> List[int]:
+def __git_status_list(file_status: int) -> list[int]:
     """
     """
     # pylint: disable=pointless-string-statement,line-too-long
@@ -145,7 +144,7 @@ def changed(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
 
-        for k, v in repo.status().items():
+        for _, v in repo.status().items():
             statuses = __git_status_list(v)
             # We don't care about the index
             is_true = FileStatus.WT_MODIFIED in statuses
@@ -183,7 +182,7 @@ def clean(fld: PromptField, ctx: PromptFields):
             fld.value = symbol
 
 
-def curr_branch() -> Optional[str]:
+def curr_branch() -> str | None:
     with contextlib.suppress(GitError):
         repo = Repo('.')
         return repo.head.shorthand
