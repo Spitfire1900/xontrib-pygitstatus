@@ -2,7 +2,6 @@ import contextlib
 import os
 from typing import List, Optional
 
-import pygit2
 from pygit2 import Commit, Diff, GitError
 from pygit2.enums import DescribeStrategy, FileStatus
 from pygit2.repository import Repository as Repo
