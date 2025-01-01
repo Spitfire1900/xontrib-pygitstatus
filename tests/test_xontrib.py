@@ -5,14 +5,10 @@ import contextlib
 import os
 from os import PathLike
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 import pytest
 from git import GitCommandError, Remote, RemoteReference, Repo
 from xonsh.prompt.base import PromptFormatter
-
-if TYPE_CHECKING:
-    from xonsh.environ import Env
 
 # test_gitstatus: https://github.com/xonsh/xonsh/blob/0.12.5/tests/prompt/test_gitstatus.py#L65
 
@@ -158,7 +154,8 @@ def test_conflict(git_repo):
         with contextlib.suppress(GitCommandError):
             git_repo.git.merge('f1')
 
-        assert PromptFormatter()('{pygitstatus.conflicts}') == '{RED}×1{RESET}'
+        assert PromptFormatter()(
+            '{pygitstatus.conflicts}') == '{RED}×1{RESET}'  # noqa: RUF001
 
 
 def test_curr_branch(git_repo):
@@ -406,7 +403,7 @@ def test_gitstatus(git_repo):
 
         assert PromptFormatter()(
             '{pygitstatus}'
-        ) == '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'
+        ) == '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'  # noqa: RUF001
         # BUG: This is missing staged
         # Should be:
         # '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●3{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'
