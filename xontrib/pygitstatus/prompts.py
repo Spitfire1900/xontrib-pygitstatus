@@ -282,6 +282,8 @@ def short_head(fld: PromptField, ctx: PromptFields):
 @PromptField.wrap(prefix="{RED}●", suffix="{RESET}", info="staged",
                   name='pygitstatus.staged')
 def staged(fld: PromptField, ctx: PromptFields):
+    # NOTE: Conflict files are intentionally excluded from the staged count.
+    #       This is an intentional difference from gitstatus.
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
@@ -291,6 +293,7 @@ def staged(fld: PromptField, ctx: PromptFields):
                 FileStatus.INDEX_NEW & file_status,
                 FileStatus.INDEX_RENAMED & file_status,
                 FileStatus.INDEX_TYPECHANGE & file_status,
+                # Conflicts are intentionally excluded, unlike gitstatus
                 # FileStatus.CONFLICTED & file_status,
             ])
         ])
