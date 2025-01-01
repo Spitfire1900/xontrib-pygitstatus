@@ -17,6 +17,8 @@ def __git_status_list(file_status: int) -> list[int]:
     """
     # pylint: disable=pointless-string-statement,line-too-long
     """
+    FileStatus.CONFLICTED,  # 32768
+    FileStatus.IGNORED,  # 16384
     FileStatus.WT_UNREADABLE,  # 4096
     FileStatus.WT_RENAMED,  # 2048
     FileStatus.WT_TYPECHANGE,  # 1024
@@ -31,7 +33,9 @@ def __git_status_list(file_status: int) -> list[int]:
 
     TODO: Switch to bitwise operations, FileStatus already uses IntFlag
     IDEA: enum.FLAG may be useful: https://youtu.be/TAMbq0iRUsA?t=249
-    @ [print("{:>013b} is the binary representation of {:>2}".format(i,i)) for i in [4096, 2048, 1024, 512, 256, 128, 16, 8, 4, 2, 1]]
+    @ [print("{:>013b} is the binary representation of {:>2}".format(i,i)) for i in [32768, 16384, 4096, 2048, 1024, 512, 256, 128, 16, 8, 4, 2, 1]]
+        1000000000000000 is the binary representation of 32768
+        100000000000000 is the binary representation of 16384
         1000000000000 is the binary representation of 4096
         0100000000000 is the binary representation of 2048
         0010000000000 is the binary representation of 1024
