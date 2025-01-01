@@ -1,11 +1,34 @@
-from collections.abc import MutableMapping
+from typing import TYPE_CHECKING
 
 from xonsh.built_ins import XonshSession
 
-from .prompts import (ahead, behind, branch, branch_bg_color, branch_color, changed,
-                      clean, conflicts, curr_branch, deleted, lines_added,
-                      lines_deleted, numstat, operations, pygitstatus, repo_path,
-                      short_head, staged, stash_count, tag, tag_or_hash, untracked)
+from .prompts import (
+    ahead,
+    behind,
+    branch,
+    branch_bg_color,
+    branch_color,
+    changed,
+    clean,
+    conflicts,
+    curr_branch,
+    deleted,
+    lines_added,
+    lines_deleted,
+    numstat,
+    operations,
+    pygitstatus,
+    repo_path,
+    short_head,
+    staged,
+    stash_count,
+    tag,
+    tag_or_hash,
+    untracked,
+)
+
+if TYPE_CHECKING:
+    from collections.abc import MutableMapping
 
 
 def _load_xontrib_(xsh: XonshSession, **_) -> dict:
@@ -18,7 +41,7 @@ def _load_xontrib_(xsh: XonshSession, **_) -> dict:
         **kwargs: it is empty as of now. Kept for future proofing.
     Returns:
         dict: this will get loaded into the current execution context
-    """
+    """  # noqa: E501
 
     # print('Autoloading xontrib: xontrib-pygitstatus')
 
@@ -64,7 +87,7 @@ def _unload_xontrib_(xsh: XonshSession, **kwargs) -> dict:
         **kwargs: it is empty as of now. Kept for future proofing.
     Returns:
         dict: this will get loaded into the current execution context
-    """
+    """# noqa: E501
 
     prompt_fields: MutableMapping
     prompt_fields = xsh.env.get('PROMPT_FIELDS')  # type: ignore

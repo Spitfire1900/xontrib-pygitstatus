@@ -7,7 +7,12 @@ from os import PathLike
 from pathlib import Path
 
 import pytest
-from git import GitCommandError, Remote, RemoteReference, Repo
+from git import (
+    GitCommandError,
+    Remote,
+    RemoteReference,
+    Repo,
+)
 from xonsh.prompt.base import PromptFormatter
 
 # test_gitstatus: https://github.com/xonsh/xonsh/blob/0.12.5/tests/prompt/test_gitstatus.py#L65
@@ -402,7 +407,7 @@ def test_pygitstatus(git_repo):
         print('> git status && echo ... && git status --porcelain')
         print(git_repo.git.status() + '...' + os.linesep +
               git_repo.git.status('--porcelain'))
-        pygitstatus_expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●2{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'  # noqa: E501
+        pygitstatus_expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●2{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'  # noqa: E501, RUF001
         gitstatus_expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●3{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'  # noqa: E501
         assert PromptFormatter()('{pygitstatus}') == pygitstatus_expected
         assert PromptFormatter()('{gitstatus}') == gitstatus_expected
