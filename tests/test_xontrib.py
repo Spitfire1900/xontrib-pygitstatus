@@ -9,7 +9,6 @@ from pathlib import Path
 import pytest
 from git import GitCommandError, Remote, RemoteReference, Repo
 from xonsh.prompt.base import PromptFormatter
-from xonsh.xontribs import xontribs_loaded
 
 # test_gitstatus: https://github.com/xonsh/xonsh/blob/0.12.5/tests/prompt/test_gitstatus.py#L65
 
