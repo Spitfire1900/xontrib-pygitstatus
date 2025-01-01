@@ -53,7 +53,7 @@ multi_line_output = 3
 include_trailing_comma = true
 
 [tool.ruff]
-select = [
+lint.select = [
     "E",
     "F",
     "B",   # flake8-bugbear
