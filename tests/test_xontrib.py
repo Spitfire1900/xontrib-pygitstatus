@@ -20,38 +20,6 @@ if TYPE_CHECKING:
 # test_gitstatus: https://github.com/xonsh/xonsh/blob/0.12.5/tests/prompt/test_gitstatus.py#L65
 
 
-@pytest.fixture(scope="module", autouse=True)
-def xsh():
-    from xonsh.built_ins import XSH
-
-    XSH.load()
-    from xontrib.pygitstatus.entrypoint import _load_xontrib_
-    _load_xontrib_(XSH)
-    yield XSH
-    XSH.unload()
-
-
-@pytest.fixture
-def format_prompt(xsh, tmpdir):
-
-    def factory(prompt: str):
-        xsh.env["PROMPT"] = prompt
-
-        formatter = PromptFormatter()
-        fields = xsh.env["PROMPT_FIELDS"]
-        fields.update(
-            dict(
-                env_name="venv1",  # fg=INTENSE_WHITE, bg=009B77
-                user="user1",
-                hostname="bot",
-                # pygitstatus="gitstatus",
-                # cwd="/home/tst",
-            ))
-        return formatter(prompt)
-
-    return factory
-
-
 @pytest.fixture
 def git_repo(tmp_path):
     repo = Repo.init(tmp_path)
@@ -117,13 +85,13 @@ def test_branch(git_repo):
         assert PromptFormatter()('{pygitstatus.branch}') == '{CYAN}test_branch'
 
 
-def test_branch_bg_color_red(git_repo, format_prompt):
+def test_branch_bg_color_red(git_repo, prompts):
     with cd(git_repo.working_tree_dir):
         Path('empty_file.txt').touch()
-        assert format_prompt('{pygitstatus.branch_bg_color}') == '{BACKGROUND_RED}'
+        assert PromptFormatter()('{pygitstatus.branch_bg_color}') == '{BACKGROUND_RED}'
 
 
-def test_branch_bg_color_yellow(tmp_path, format_prompt):
+def test_branch_bg_color_yellow(tmp_path):
     with cd(tmp_path):
         # BUG: can not run at the same time as test_branch_bg_color_red
         # without `--forked` being passed to pytest.,
@@ -134,14 +102,15 @@ def test_branch_bg_color_yellow(tmp_path, format_prompt):
         # Look at https://github.com/jnoortheen/xontrib-powerline3/blob/910b09de05182467599e5b785d63222eaeeae9c9/tests/test_processor.py#L24-L26
         # Try setting up the "PROMPT" environment variable
         # instead of calling PromptFormatter() with the prompt.
-        # Attempt to follow the above link reproduced the issue.
-        assert format_prompt('{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
+        assert PromptFormatter()(
+            '{pygitstatus.branch_bg_color}') == '{BACKGROUND_YELLOW}'
 
 
-def test_branch_bg_color_green(git_repo, format_prompt):
+def test_branch_bg_color_green(git_repo):
     with cd(git_repo.working_tree_dir):
         print(f'{git_repo.git.status()=}')
-        assert format_prompt('{pygitstatus.branch_bg_color}') == '{BACKGROUND_GREEN}'
+        assert PromptFormatter()(
+            '{pygitstatus.branch_bg_color}') == '{BACKGROUND_GREEN}'
 
 
 def test_branch_color_red(git_repo):
