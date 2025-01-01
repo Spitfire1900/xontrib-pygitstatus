@@ -51,7 +51,7 @@ def __git_status_list(file_status: int) -> list[int]:
     @ 528 ^ 16 in [4096, 2048, 1024, 512, 256, 128, 16, 8, 4, 2, 1]
         True
         # This has GIT_STATUS_INDEX_TYPECHANGE status
-    """
+    """  # noqa: E501
 
     statuses = []
     _file_status_worker = file_status
@@ -154,8 +154,12 @@ def changed(fld: PromptField, ctx: PromptFields):
             fld.value = str(count)
 
 
-@PromptField.wrap(prefix="{RED}×", suffix="{RESET}", info="conflicts",
-                  name='pygitstatus.conflicts')
+@PromptField.wrap(
+    prefix="{RED}×",  # noqa: RUF001
+    suffix="{RESET}",
+    info="conflicts",
+    name='pygitstatus.conflicts',
+)
 def conflicts(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
@@ -197,7 +201,7 @@ def deleted(fld: PromptField, ctx: PromptFields):
     with contextlib.suppress(GitError):
         repo = Repo('.')
 
-        for k, v in repo.status().items():
+        for _, v in repo.status().items():
             statuses = __git_status_list(v)
             # We don't care about the index.
             is_true = FileStatus.WT_DELETED in statuses
