@@ -291,7 +291,7 @@ def staged(fld: PromptField, ctx: PromptFields):
                 FileStatus.INDEX_NEW & file_status,
                 FileStatus.INDEX_RENAMED & file_status,
                 FileStatus.INDEX_TYPECHANGE & file_status,
-                FileStatus.CONFLICTED & file_status,
+                # FileStatus.CONFLICTED & file_status,
             ])
         ])
         if untracked_count > 0:

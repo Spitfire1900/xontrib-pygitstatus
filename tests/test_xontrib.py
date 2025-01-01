@@ -414,5 +414,8 @@ def test_gitstatus(git_repo):
         # ----
         # Since conflict_file.txt is added in both the index and the working tree,
         # pygitstatus intentionally differs from gitstatus in this case
-        expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●3{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'
-        assert PromptFormatter()('{pygitstatus}') == expected
+        # pygitstatus also intentionally excludes conflicted files from the staged count
+        pygitstatus_expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●2{RESET}{RED}×1{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'  # noqa: E501
+        gitstatus_expected = '{CYAN}f1↑·1↓·1{CYAN}|MERGING{RESET}|{RED}●3{RESET}{BLUE}+1{RESET}{RED}-1{RESET}…1⚑1'  # noqa: E501
+        assert PromptFormatter()('{pygitstatus}') == pygitstatus_expected
+        assert PromptFormatter()('{gitstatus}') == gitstatus_expected
