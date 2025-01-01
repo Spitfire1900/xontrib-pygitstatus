@@ -43,10 +43,12 @@ $PROMPT = '{YELLOW}{env_name}{RESET}{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {cw
 
 ## Differences from gitstatus
 
-PyGitStatus is a fork of [gitstatus](https://github.com/xonsh/xonsh/blob/0.12.5/xonsh/prompt/gitstatus.py) that nearly follows the same logic as the original gitstatus prompt, but with a few differences:
+PyGitStatus is a reimplementation of the [gitstatus](https://github.com/xonsh/xonsh/blob/0.12.5/xonsh/prompt/gitstatus.py) that nearly follows the same logic as the original gitstatus prompt, but with a few differences:
 
 -   Conflict files are intentionally excluded from pygitstatus.staged.
 -   The pygitstatus prompt will include conflicted files when both are added to the index and the working tree.
+
+gitstatus uses `git status --porcelain`, which is unable to distinguish between a conflict file and one that was added to both the index and working tree.
 
 ## Fields
 
