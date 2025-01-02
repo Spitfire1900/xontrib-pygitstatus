@@ -226,7 +226,7 @@ def staged(fld: PromptField, ctx: PromptFields):
     fld.value = ''
     with contextlib.suppress(GitError):
         repo = Repo('.')
-        untracked_count = len([
+        staged_count = len([
             file_status for file_status in repo.status().values() if any([
                 FileStatus.INDEX_MODIFIED & file_status,
                 FileStatus.INDEX_NEW & file_status,
@@ -236,8 +236,8 @@ def staged(fld: PromptField, ctx: PromptFields):
                 # FileStatus.CONFLICTED & file_status,
             ])
         ])
-        if untracked_count > 0:
-            fld.value = str(untracked_count)
+        if staged_count > 0:
+            fld.value = str(staged_count)
 
 
 @PromptField.wrap(prefix="⚑", name='pygitstatus.stash_count')
